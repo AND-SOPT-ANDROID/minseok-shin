@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -74,13 +76,17 @@ fun MyPageScreen(modifier: Modifier, email: String) {
                     .padding(end = 10.dp)
                     .size(60.dp)
             )
-            Text(
-                text = email, color = Color.White,
-                fontSize = 20.sp,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.width(200.dp)
-            )
+            BoxWithConstraints {
+                val maxWidth = maxWidth
+                Text(
+                    text = email,
+                    color = Color.White,
+                    fontSize = 20.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.widthIn(max = maxWidth * 0.7f) // 최대 너비를 60%로 설정
+                )
+            }
             Spacer(modifier = Modifier.weight(1f))
             Icon(
                 painterResource(id = R.drawable.ic_my_page_bell_24),
