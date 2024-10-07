@@ -67,6 +67,7 @@ class SignInActivity : ComponentActivity() {
     private fun navigateToMyPageScreen(email: String) {
         val intent = Intent(this, MyActivity::class.java).apply {
             putExtra("EMAIL", email)
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
         startActivity(intent)
     }
