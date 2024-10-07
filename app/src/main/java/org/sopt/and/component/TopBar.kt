@@ -1,5 +1,6 @@
 package org.sopt.and.component
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,7 +18,10 @@ import androidx.compose.ui.unit.dp
 import org.sopt.and.R
 
 @Composable
-fun RightButtonTopBar(text: String) {
+fun RightButtonTopBar(
+    text: String,
+    @DrawableRes id: Int
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -32,7 +36,7 @@ fun RightButtonTopBar(text: String) {
             color = Color.White
         )
         Icon(
-            painter = painterResource(id = R.drawable.ic_top_bar_close),
+            painter = painterResource(id = id),
             contentDescription = null,
             tint = Color.White,
             modifier = Modifier
@@ -42,10 +46,41 @@ fun RightButtonTopBar(text: String) {
     }
 }
 
+@Composable
+fun LeftButtonTopBar(
+    text: String,
+    @DrawableRes id: Int
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 0.dp),
+        contentAlignment = Alignment.Center
+
+    ) {
+        Text(
+            text = text,
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center,
+            color = Color.White
+        )
+        Icon(
+            painter = painterResource(id = id),
+            contentDescription = null,
+            tint = Color.White,
+            modifier = Modifier
+                .align(Alignment.CenterStart)
+                .padding(16.dp)
+        )
+    }
+}
+
 @Preview
 @Composable
 private fun TopBarPreview() {
     Column {
-        RightButtonTopBar("회원가입")
+        RightButtonTopBar("회원가입", R.drawable.ic_top_bar_close)
+        LeftButtonTopBar("회원가입", R.drawable.ic_top_bar_close)
+
     }
 }

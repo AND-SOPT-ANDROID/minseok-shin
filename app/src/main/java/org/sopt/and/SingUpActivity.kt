@@ -25,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -65,7 +66,10 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
             .fillMaxSize()
             .background(color = Color(0xFF1B1B1B))
     ) {
-        RightButtonTopBar(text = "회원가입")
+        RightButtonTopBar(
+            text = stringResource(id = R.string.sign_up),
+            R.drawable.ic_top_bar_close
+        )
         Spacer(modifier = Modifier.height(20.dp))
 
         Column(
@@ -74,7 +78,7 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
                 .padding(horizontal = 11.dp)
         ) {
             Text(
-                text = "이메일과 비밀번호만으로\nWavve를 즐길 수 있어요!",
+                text = stringResource(id = R.string.introduction),
                 color = Color.White
             )
             Spacer(modifier = Modifier.height(20.dp))
@@ -83,11 +87,11 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
                 modifier = Modifier.fillMaxWidth(),
                 value = userEmail,
                 onValueChange = { newValue -> userEmail = newValue },
-                placeholder = { Text("wavve@example.com") },
+                placeholder = { Text(text = stringResource(id = R.string.email_placeholder)) },
                 maxLines = 1,
             )
             Text(
-                text = "! 로그인, 비말번호 찾기, 알림에 사용되니 정확한 이메일을 입력해\n주세요.",
+                text = stringResource(id = R.string.email_description),
                 color = Color.White,
                 fontSize = 12.sp,
                 modifier = Modifier.padding(vertical = 10.dp)
@@ -97,12 +101,12 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
                 modifier = Modifier.fillMaxWidth(),
                 value = userPassword,
                 onValueChange = { newValue -> userPassword = newValue },
-                placeholder = { Text("Wavve 비밀번호 설정") },
+                placeholder = { Text(text = stringResource(id = R.string.password_placeholder)) },
                 maxLines = 1,
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 trailingIcon = {
                     Text(
-                        text = if (passwordVisible) "Hide" else "Show",
+                        text = stringResource(id = if (passwordVisible) R.string.password_visible_button_hide else R.string.password_visible_button_show),
                         modifier = Modifier
                             .clickable {
                                 passwordVisible = !passwordVisible
@@ -113,7 +117,7 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
                 }
             )
             Text(
-                text = "! 비밀번호는 8~20자 이내로 영문 대소문자, 숫자, 특수문자 중\n3가지 이상 혼용하여 입력해 주세요.",
+                text = stringResource(id = R.string.password_description),
                 color = Color.White,
                 fontSize = 12.sp,
                 modifier = Modifier.padding(vertical = 10.dp)
@@ -130,7 +134,7 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.weight(1f))
 
         Text(
-            text = "Wavve 회원가입",
+            text = stringResource(id = R.string.sign_up_button_text),
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable(enabled = buttonClickable) {
@@ -167,7 +171,8 @@ fun isValidPassword(password: String): Boolean {
     val digit = password.count { it.isDigit() }
     val specialChar = password.count { it in "!@#\$%^&*() _+\\-=\\[\\]{};':\"\\\\|,.<>\\/?" }
 
-    val characterTypesCount = listOf(lowercase > 0, uppercase > 0, digit > 0, specialChar > 0).count { it }
+    val characterTypesCount =
+        listOf(lowercase > 0, uppercase > 0, digit > 0, specialChar > 0).count { it }
 
     return characterTypesCount >= 3
 }
