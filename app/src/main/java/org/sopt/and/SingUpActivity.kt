@@ -1,69 +1,89 @@
 package org.sopt.and
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.sopt.and.component.EmailTextField
+import org.sopt.and.component.PasswordTextField
 import org.sopt.and.component.RightButtonTopBar
 import org.sopt.and.ui.theme.ANDANDROIDTheme
 import java.util.regex.Pattern
 
 class SignUpActivity : ComponentActivity() {
+    private lateinit var signInLauncher: ActivityResultLauncher<Intent>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+
+
+        signInLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+
+            }
+
         setContent {
             ANDANDROIDTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    SignUpScreen(modifier = Modifier.padding(innerPadding))
+                    SignUpScreen(
+                        modifier = Modifier.padding(innerPadding),
+                        onSignUpSuccess = { email, password ->
+                            navigateToSignInScreen(email, password)
+                        })
                 }
             }
         }
     }
+
+    private fun navigateToSignInScreen(email: String, password: String) {
+        val intent = Intent(this, SignInActivity::class.java).apply {
+            putExtra("EMAIL", email)
+            putExtra("PASSWORD", password)
+        }
+        signInLauncher.launch(intent)
+    }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignUpScreen(modifier: Modifier = Modifier) {
-    var userEmail by remember { mutableStateOf("") }
-    var userPassword by remember { mutableStateOf("") }
-    var buttonClickable by remember { mutableStateOf(false) }
-    var passwordVisible by remember { mutableStateOf(false) }
+fun SignUpScreen(modifier: Modifier = Modifier, onSignUpSuccess: (String, String) -> Unit) {
+    val context = LocalContext.current
+    val userEmail = remember { mutableStateOf("") }
+    val userPassword = remember { mutableStateOf("") }
+    val passwordVisible = remember { mutableStateOf(false) }
 
-    LaunchedEffect(userEmail, userPassword) {
-        buttonClickable = isValidEmail(userEmail) && isValidPassword(userPassword)
+    val buttonClickable by remember {
+        derivedStateOf {
+            isValidEmail(userEmail.value) && isValidPassword(userPassword.value)
+        }
     }
 
     Column(
@@ -72,11 +92,10 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
             .background(color = Color(0xFF1B1B1B))
     ) {
         RightButtonTopBar(
-            text = stringResource(id = R.string.sign_up),
+            text = stringResource(id = R.string.sign_up_top_bar),
             R.drawable.ic_top_bar_close
         )
         Spacer(modifier = Modifier.height(20.dp))
-
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -87,62 +106,21 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
                 color = Color.White
             )
             Spacer(modifier = Modifier.height(20.dp))
-
-            OutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                value = userEmail,
-                onValueChange = { newValue -> userEmail = newValue },
-                placeholder = { Text(text = stringResource(id = R.string.email_placeholder),
-                    color = Color(0xFFABABAB)) },
-                maxLines = 1,
-                shape = RoundedCornerShape(5.dp),
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    containerColor = Color(0xFF2F2F2F),
-                    focusedBorderColor = Color.Transparent,
-                    unfocusedBorderColor = Color.Transparent,
-                )
+            EmailTextField(
+                userEmail = userEmail,
+                placeHolder = stringResource(id = R.string.sign_up_email_placeholder)
             )
-
             Text(
                 text = stringResource(id = R.string.email_description),
                 color = Color.White,
                 fontSize = 12.sp,
                 modifier = Modifier.padding(vertical = 10.dp)
             )
-
-            OutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                value = userPassword,
-                onValueChange = { newValue -> userPassword = newValue },
-                placeholder = {
-                    Text(
-                        text = stringResource(id = R.string.password_placeholder),
-                        color = Color(0xFFABABAB)
-                    )
-                },
-                maxLines = 1,
-                visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                trailingIcon = {
-                    Text(
-                        text = stringResource(id = if (passwordVisible) R.string.password_visible_button_hide else R.string.password_visible_button_show),
-                        modifier = Modifier
-                            .clickable {
-                                passwordVisible = !passwordVisible
-                            }
-                            .padding(end = 10.dp),
-                        color = Color.Gray
-                    )
-                },
-                shape = RoundedCornerShape(5.dp),
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    containerColor = Color(0xFF2F2F2F),
-                    focusedBorderColor = Color.Transparent,
-                    unfocusedBorderColor = Color.Transparent
-                )
+            PasswordTextField(
+                userPassword = userPassword,
+                passwordVisible = passwordVisible,
+                placeHolder = stringResource(id = R.string.sign_up_password_placeholder)
             )
-
             Text(
                 text = stringResource(id = R.string.password_description),
                 color = Color.White,
@@ -151,21 +129,28 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
             )
             Spacer(modifier = Modifier.height(30.dp))
         }
-
         Image(
             painter = painterResource(id = R.drawable.img_sign_up_image),
             contentDescription = "회원가입 이미지",
             modifier = Modifier.fillMaxWidth()
         )
-
         Spacer(modifier = Modifier.weight(1f))
-
         Text(
             text = stringResource(id = R.string.sign_up_button_text),
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable(enabled = buttonClickable) {
-
+                .clickable(enabled = buttonClickable,
+                    indication = null,
+                    interactionSource = remember { MutableInteractionSource() }
+                ) {
+                    onSignUpSuccess(userEmail.value, userPassword.value)
+                    Toast
+                        .makeText(
+                            context,
+                            context.getString(R.string.sign_up_success),
+                            Toast.LENGTH_SHORT
+                        )
+                        .show()
                 }
                 .background(
                     color = if (buttonClickable) Color.DarkGray else Color.LightGray
@@ -177,10 +162,11 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
     }
 }
 
+
 @Preview(showBackground = true)
 @Composable
 fun SignUpScreenPreview() {
-    SignUpScreen()
+    SignUpScreen(onSignUpSuccess = { email, password -> {} })
 }
 
 fun isValidEmail(email: String): Boolean {
@@ -203,3 +189,5 @@ fun isValidPassword(password: String): Boolean {
 
     return characterTypesCount >= 3
 }
+
+
