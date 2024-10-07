@@ -71,8 +71,9 @@ fun MyPageBox(title:String,description: String) {
                 .padding(top = 15.dp)
         )
         Spacer(modifier = Modifier.height(40.dp))
-        Image(
-            painter = painterResource(id = R.drawable.img_my_page_alert),
+        Icon(
+            painter = painterResource(id = R.drawable.ic_all_info_24),
+            tint = Color(0xFFACACAC),
             contentDescription = null,
             modifier = Modifier.size(60.dp)
         )
