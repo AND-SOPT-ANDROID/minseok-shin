@@ -3,7 +3,6 @@ package org.sopt.and
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -14,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -25,8 +23,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -84,7 +80,7 @@ fun MyPageScreen(modifier: Modifier, email: String) {
                     fontSize = 20.sp,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.widthIn(max = maxWidth * 0.7f) // 최대 너비를 60%로 설정
+                    modifier = Modifier.widthIn(max = maxWidth * 0.7f)
                 )
             }
             Spacer(modifier = Modifier.weight(1f))
@@ -104,8 +100,14 @@ fun MyPageScreen(modifier: Modifier, email: String) {
         MyPagePurchaseBox(description = stringResource(R.string.my_page_first_box_description))
         Spacer(modifier = Modifier.height(1.dp))
         MyPagePurchaseBox(description = stringResource(R.string.my_page_second_box_description))
-        MyPageBox(title = stringResource(R.string.my_page_view_history), description = stringResource(R.string.my_page_view_history_description))
-        MyPageBox(title = stringResource(R.string.my_page_favorite_program), description = stringResource(R.string.my_page_favorite_program_description))
+        MyPageBox(
+            title = stringResource(R.string.my_page_view_history),
+            description = stringResource(R.string.my_page_view_history_description)
+        )
+        MyPageBox(
+            title = stringResource(R.string.my_page_favorite_program),
+            description = stringResource(R.string.my_page_favorite_program_description)
+        )
     }
 }
 
