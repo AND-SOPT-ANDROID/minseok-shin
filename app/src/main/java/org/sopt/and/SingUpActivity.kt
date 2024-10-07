@@ -13,9 +13,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -50,6 +54,7 @@ class SignUpActivity : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignUpScreen(modifier: Modifier = Modifier) {
     var userEmail by remember { mutableStateOf("") }
@@ -83,13 +88,22 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
             )
             Spacer(modifier = Modifier.height(20.dp))
 
-            TextField(
-                modifier = Modifier.fillMaxWidth(),
+            OutlinedTextField(
+                modifier = Modifier
+                    .fillMaxWidth(),
                 value = userEmail,
                 onValueChange = { newValue -> userEmail = newValue },
-                placeholder = { Text(text = stringResource(id = R.string.email_placeholder)) },
+                placeholder = { Text(text = stringResource(id = R.string.email_placeholder),
+                    color = Color(0xFFABABAB)) },
                 maxLines = 1,
+                shape = RoundedCornerShape(5.dp),
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    containerColor = Color(0xFF2F2F2F),
+                    focusedBorderColor = Color.Transparent,
+                    unfocusedBorderColor = Color.Transparent,
+                )
             )
+
             Text(
                 text = stringResource(id = R.string.email_description),
                 color = Color.White,
@@ -97,11 +111,17 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
                 modifier = Modifier.padding(vertical = 10.dp)
             )
 
-            TextField(
-                modifier = Modifier.fillMaxWidth(),
+            OutlinedTextField(
+                modifier = Modifier
+                    .fillMaxWidth(),
                 value = userPassword,
                 onValueChange = { newValue -> userPassword = newValue },
-                placeholder = { Text(text = stringResource(id = R.string.password_placeholder)) },
+                placeholder = {
+                    Text(
+                        text = stringResource(id = R.string.password_placeholder),
+                        color = Color(0xFFABABAB)
+                    )
+                },
                 maxLines = 1,
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 trailingIcon = {
@@ -114,8 +134,15 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
                             .padding(end = 10.dp),
                         color = Color.Gray
                     )
-                }
+                },
+                shape = RoundedCornerShape(5.dp),
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    containerColor = Color(0xFF2F2F2F),
+                    focusedBorderColor = Color.Transparent,
+                    unfocusedBorderColor = Color.Transparent
+                )
             )
+
             Text(
                 text = stringResource(id = R.string.password_description),
                 color = Color.White,
