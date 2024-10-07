@@ -32,6 +32,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.sopt.and.User.EMAIL
+import org.sopt.and.User.PASSWORD
 import org.sopt.and.component.EmailTextField
 import org.sopt.and.component.LeftButtonTopBar
 import org.sopt.and.component.PasswordTextField
@@ -42,8 +44,8 @@ class SignInActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         val intent = intent
-        val email = intent.getStringExtra("EMAIL") ?: ""
-        val password = intent.getStringExtra("PASSWORD") ?: ""
+        val email = intent.getStringExtra(EMAIL) ?: ""
+        val password = intent.getStringExtra(PASSWORD) ?: ""
 
         setContent {
             ANDANDROIDTheme {

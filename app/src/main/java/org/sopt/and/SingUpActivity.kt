@@ -33,6 +33,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.sopt.and.User.EMAIL
+import org.sopt.and.User.PASSWORD
 import org.sopt.and.component.EmailTextField
 import org.sopt.and.component.PasswordTextField
 import org.sopt.and.component.RightButtonTopBar
@@ -66,8 +68,8 @@ class SignUpActivity : ComponentActivity() {
 
     private fun navigateToSignInScreen(email: String, password: String) {
         val intent = Intent(this, SignInActivity::class.java).apply {
-            putExtra("EMAIL", email)
-            putExtra("PASSWORD", password)
+            putExtra(EMAIL, email)
+            putExtra(PASSWORD, password)
         }
         signInLauncher.launch(intent)
     }

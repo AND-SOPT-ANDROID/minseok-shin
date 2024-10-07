@@ -27,6 +27,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.sopt.and.User.EMAIL
 import org.sopt.and.component.MyPageBox
 import org.sopt.and.component.MyPagePurchaseBox
 import org.sopt.and.ui.theme.ANDANDROIDTheme
@@ -36,7 +37,7 @@ class MyActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         val intent = intent
-        val email = intent.getStringExtra("EMAIL") ?: ""
+        val email = intent.getStringExtra(EMAIL) ?: ""
         setContent {
             ANDANDROIDTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
