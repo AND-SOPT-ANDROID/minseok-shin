@@ -2,7 +2,6 @@ package org.sopt.and
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -19,10 +18,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -32,6 +34,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.sopt.and.User.EMAIL
 import org.sopt.and.User.PASSWORD
 import org.sopt.and.component.EmailTextField
@@ -96,6 +100,9 @@ fun SignInScreen(
     val passwordVisible = remember { mutableStateOf(false) }
     val context = LocalContext.current
 
+    val snackBarHostState = remember { SnackbarHostState() }
+    val coroutine = rememberCoroutineScope()
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -135,22 +142,15 @@ fun SignInScreen(
                         interactionSource = remember { MutableInteractionSource() }
                     ) {
                         if (email.value.isNotEmpty() && email.value == userEmail.value && password.value == userPassword.value) {
-                            onSignInSuccess(userEmail.value)
-                            Toast
-                                .makeText(
-                                    context,
-                                    context.getString(R.string.sign_in_success),
-                                    Toast.LENGTH_SHORT
-                                )
-                                .show()
+                            coroutine.launch {
+                                snackBarHostState.showSnackbar(message = context.getString(R.string.sign_in_success))
+                                delay(500)
+                                onSignInSuccess(userEmail.value)
+                            }
                         } else {
-                            Toast
-                                .makeText(
-                                    context,
-                                    context.getString(R.string.sign_in_failed),
-                                    Toast.LENGTH_SHORT
-                                )
-                                .show()
+                            coroutine.launch {
+                                snackBarHostState.showSnackbar(message = context.getString(R.string.sign_in_failed))
+                            }
                         }
                     },
                 textAlign = TextAlign.Center,
@@ -180,6 +180,8 @@ fun SignInScreen(
                 contentDescription = "로그인 이미지",
                 modifier = Modifier.fillMaxWidth()
             )
+            Spacer(modifier = Modifier.weight(1f))
+            SnackbarHost(hostState = snackBarHostState)
 
         }
 
