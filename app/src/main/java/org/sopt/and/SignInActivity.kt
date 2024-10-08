@@ -72,7 +72,7 @@ class SignInActivity : ComponentActivity() {
 
     private fun navigateToMyPageScreen(email: String) {
         val intent = Intent(this, MyActivity::class.java).apply {
-            putExtra("EMAIL", email)
+            putExtra(EMAIL, email)
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
         startActivity(intent)
@@ -93,8 +93,6 @@ fun SignInScreen(
     navigateToSignUpScreen: () -> Unit
 ) {
 
-    val email = remember { mutableStateOf(email) }
-    val password = remember { mutableStateOf(password) }
     val userEmail = remember { mutableStateOf("") }
     val userPassword = remember { mutableStateOf("") }
     val passwordVisible = remember { mutableStateOf(false) }
@@ -141,7 +139,7 @@ fun SignInScreen(
                         indication = null,
                         interactionSource = remember { MutableInteractionSource() }
                     ) {
-                        if (email.value.isNotEmpty() && email.value == userEmail.value && password.value == userPassword.value) {
+                        if (email.isNotEmpty() && email == userEmail.value && password == userPassword.value) {
                             coroutine.launch {
                                 snackBarHostState.showSnackbar(message = context.getString(R.string.sign_in_success))
                                 delay(500)
