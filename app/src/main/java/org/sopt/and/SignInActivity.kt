@@ -79,7 +79,6 @@ fun SignInScreen(
     onSignInSuccess: (String) -> Unit,
     navigateToSignUpScreen: () -> Unit
 ) {
-
     val userEmail = remember { mutableStateOf("") }
     val userPassword = remember { mutableStateOf("") }
     val passwordVisible = remember { mutableStateOf(false) }

@@ -3,7 +3,6 @@ package org.sopt.and
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResultLauncher
@@ -38,6 +37,7 @@ import org.sopt.and.component.EmailTextField
 import org.sopt.and.component.PasswordTextField
 import org.sopt.and.component.RightButtonTopBar
 import org.sopt.and.ui.theme.ANDANDROIDTheme
+import org.sopt.and.util.showToast
 import java.util.regex.Pattern
 
 class SignUpActivity : ComponentActivity() {
@@ -139,13 +139,7 @@ fun SignUpScreen(modifier: Modifier = Modifier, onSignUpSuccess: (String, String
                     interactionSource = remember { MutableInteractionSource() }
                 ) {
                     onSignUpSuccess(userEmail.value, userPassword.value)
-                    Toast
-                        .makeText(
-                            context,
-                            context.getString(R.string.sign_up_success),
-                            Toast.LENGTH_SHORT
-                        )
-                        .show()
+                    context.showToast(context.getString(R.string.sign_up_success))
                 }
                 .background(
                     color = if (buttonClickable) Color.DarkGray else Color.LightGray
