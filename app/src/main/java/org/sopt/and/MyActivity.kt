@@ -24,7 +24,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -55,7 +54,7 @@ class MyActivity : ComponentActivity() {
 }
 
 @Composable
-fun MyPageScreen(modifier: Modifier, email: String) {
+fun MyPageScreen(modifier: Modifier = Modifier, email: String) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -119,7 +118,6 @@ fun MyPageScreen(modifier: Modifier, email: String) {
 @Composable
 fun MyPageScreenPreview() {
     MyPageScreen(
-        modifier = Modifier,
         email = "minsuk07672@naver.com"
     )
 }

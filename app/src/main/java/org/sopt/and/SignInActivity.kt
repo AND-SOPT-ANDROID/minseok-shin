@@ -73,7 +73,7 @@ class SignInActivity : ComponentActivity() {
 
 @Composable
 fun SignInScreen(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     email: String,
     password: String,
     onSignInSuccess: (String) -> Unit,
@@ -170,7 +170,6 @@ fun SignInScreen(
 @Composable
 fun SignInScreenPreview() {
     SignInScreen(
-        modifier = Modifier,
         email = "",
         password = "",
         onSignInSuccess = {},
