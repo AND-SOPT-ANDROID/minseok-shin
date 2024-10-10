@@ -22,12 +22,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.and.R
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EmailTextField(userEmail: MutableState<String>, placeHolder: String) {
+fun EmailTextField(
+    modifier: Modifier = Modifier,
+    userEmail: MutableState<String>,
+    placeHolder: String
+) {
     val containerColor = Color(0xFF2F2F2F)
     OutlinedTextField(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth(),
         value = userEmail.value,
         onValueChange = { newValue -> userEmail.value = newValue },
@@ -52,15 +55,15 @@ fun EmailTextField(userEmail: MutableState<String>, placeHolder: String) {
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PasswordTextField(
+    modifier: Modifier = Modifier,
     userPassword: MutableState<String>, placeHolder: String,
     passwordVisible: MutableState<Boolean>
 ) {
     val containerColor = Color(0xFF2F2F2F)
     OutlinedTextField(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth(),
         value = userPassword.value,
         onValueChange = { newValue -> userPassword.value = newValue },
@@ -75,7 +78,7 @@ fun PasswordTextField(
         trailingIcon = {
             Text(
                 text = stringResource(id = if (passwordVisible.value) R.string.password_visible_button_hide else R.string.password_visible_button_show),
-                modifier = Modifier
+                modifier = modifier
                     .clickable {
                         passwordVisible.value = !passwordVisible.value
                     }

@@ -95,7 +95,7 @@ fun SignInScreen(
 
         TopBar(
             text = stringResource(id = R.string.sign_in_top_bar),
-            R.drawable.ic_top_bar_arrow_back_24,
+            id = R.drawable.ic_top_bar_arrow_back_24,
             alignment = Alignment.CenterStart
         )
         Spacer(modifier = Modifier.height(40.dp))
@@ -126,7 +126,7 @@ fun SignInScreen(
                         coroutine.launch {
                             if (email.isNotEmpty() && email == userEmail.value && password == userPassword.value) {
                                 snackBarHostState.showSnackbar(message = context.getString(R.string.sign_in_success))
-                                delay(500)
+                                delay(300)
                                 onSignInSuccess(userEmail.value)
                             } else {
                                 snackBarHostState.showSnackbar(message = context.getString(R.string.sign_in_failed))

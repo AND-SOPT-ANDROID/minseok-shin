@@ -97,7 +97,8 @@ fun SignUpScreen(modifier: Modifier = Modifier, onSignUpSuccess: (String, String
             .background(color = Color(0xFF1B1B1B))
     ) {
         TopBar(
-            text = stringResource(id = R.string.sign_up_top_bar), R.drawable.ic_top_bar_close,
+            text = stringResource(id = R.string.sign_up_top_bar),
+            id = R.drawable.ic_top_bar_close,
             alignment = Alignment.CenterEnd
         )
         Spacer(modifier = Modifier.height(20.dp))

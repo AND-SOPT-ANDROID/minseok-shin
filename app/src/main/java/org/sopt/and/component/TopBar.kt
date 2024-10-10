@@ -19,12 +19,13 @@ import org.sopt.and.R
 
 @Composable
 fun TopBar(
+    modifier: Modifier=Modifier,
     text: String,
     @DrawableRes id: Int,
     alignment: Alignment
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 0.dp),
         contentAlignment = Alignment.Center
@@ -32,7 +33,7 @@ fun TopBar(
     ) {
         Text(
             text = text,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
             color = Color.White
         )
@@ -40,7 +41,7 @@ fun TopBar(
             painter = painterResource(id = id),
             contentDescription = null,
             tint = Color.White,
-            modifier = Modifier
+            modifier = modifier
                 .align(alignment)
                 .padding(16.dp)
         )
@@ -53,7 +54,7 @@ fun TopBar(
 @Composable
 private fun TopBarPreview() {
     Column {
-        TopBar("회원가입", R.drawable.ic_top_bar_close, Alignment.CenterStart)
-        TopBar("회원가입", R.drawable.ic_top_bar_close, Alignment.CenterEnd)
+        TopBar(text="회원가입", id=R.drawable.ic_top_bar_close, alignment = Alignment.CenterStart)
+        TopBar(text="회원가입", id=R.drawable.ic_top_bar_close, alignment = Alignment.CenterEnd)
     }
 }

@@ -1,9 +1,6 @@
 package org.sopt.and.component
 
-import android.widget.Space
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -27,16 +24,16 @@ import androidx.compose.ui.unit.sp
 import org.sopt.and.R
 
 @Composable
-fun MyPagePurchaseBox(description: String) {
+fun MyPagePurchaseBox(modifier: Modifier=Modifier,description: String) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .background(color = Color(0xFF252525))
             .padding(top = 10.dp, start = 20.dp, end = 20.dp, bottom = 25.dp)
     ) {
 
         Text(text = description, color = Color(0xFFA5A5A5),
-            modifier = Modifier.padding(bottom = 5.dp))
+            modifier = modifier.padding(bottom = 5.dp))
         Row (verticalAlignment = Alignment.CenterVertically){
             Text(text = stringResource(R.string.my_page_purchase), color = Color.White)
             Column {
@@ -56,8 +53,8 @@ fun MyPagePurchaseBox(description: String) {
 }
 
 @Composable
-fun MyPageBox(title:String,description: String) {
-    Column (modifier = Modifier
+fun MyPageBox(modifier: Modifier=Modifier,title:String,description: String) {
+    Column (modifier = modifier
         .fillMaxWidth()
         .padding(horizontal = 11.dp),
         horizontalAlignment = Alignment.CenterHorizontally){
@@ -66,26 +63,26 @@ fun MyPageBox(title:String,description: String) {
             color = Color.White,
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth()
                 .padding(top = 15.dp)
         )
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = modifier.height(40.dp))
         Icon(
             painter = painterResource(id = R.drawable.ic_all_info_24),
             tint = Color(0xFFACACAC),
             contentDescription = null,
-            modifier = Modifier.size(60.dp)
+            modifier = modifier.size(60.dp)
         )
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = modifier.height(10.dp))
         Text(
             text = description,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
             color = Color(0xFFACACAC)
         )
 
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = modifier.height(40.dp))
     }
     
 }
