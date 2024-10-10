@@ -48,7 +48,6 @@ class SignInActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val intent = intent
         val email = intent.getStringExtra(EMAIL) ?: ""
         val password = intent.getStringExtra(PASSWORD) ?: ""
 
