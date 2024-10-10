@@ -1,5 +1,6 @@
 package org.sopt.and
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -59,10 +60,10 @@ class SignInActivity : ComponentActivity() {
                         email = email,
                         password = password,
                         onSignInSuccess = { userEmail ->
-                            navigateToMyPageScreen(userEmail)
+                            navigateToMyPageScreen(this, userEmail)
                         },
                         navigateToSignUpScreen = {
-                            navigateToSignUpScreen()
+                            navigateToSignUpScreen(this)
                         }
                     )
                 }
@@ -70,18 +71,6 @@ class SignInActivity : ComponentActivity() {
         }
     }
 
-    private fun navigateToMyPageScreen(email: String) {
-        val intent = Intent(this, MyActivity::class.java).apply {
-            putExtra(EMAIL, email)
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        }
-        startActivity(intent)
-    }
-
-    private fun navigateToSignUpScreen() {
-        val intent = Intent(this, SignUpActivity::class.java)
-        startActivity(intent)
-    }
 }
 
 @Composable
@@ -197,6 +186,20 @@ fun SignInScreenPreview() {
         onSignInSuccess = {},
         navigateToSignUpScreen = {}
     )
+}
+
+fun navigateToSignInScreen(context: Context) {
+    Intent(context, SignInActivity::class.java).apply {
+        context.startActivity(this)
+    }
+}
+
+fun navigateToSignInScreen(context: Context, email: String, password: String) {
+    Intent(context, SignInActivity::class.java).apply {
+        putExtra(EMAIL, email)
+        putExtra(PASSWORD, password)
+        context.startActivity(this)
+    }
 }
 
 

@@ -1,5 +1,6 @@
 package org.sopt.and
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -33,8 +34,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.sopt.and.User.EMAIL
-import org.sopt.and.User.PASSWORD
 import org.sopt.and.component.EmailTextField
 import org.sopt.and.component.PasswordTextField
 import org.sopt.and.component.RightButtonTopBar
@@ -59,20 +58,14 @@ class SignUpActivity : ComponentActivity() {
                     SignUpScreen(
                         modifier = Modifier.padding(innerPadding),
                         onSignUpSuccess = { email, password ->
-                            navigateToSignInScreen(email, password)
+                            navigateToSignInScreen(this, email, password)
                         })
                 }
             }
         }
     }
 
-    private fun navigateToSignInScreen(email: String, password: String) {
-        val intent = Intent(this, SignInActivity::class.java).apply {
-            putExtra(EMAIL, email)
-            putExtra(PASSWORD, password)
-        }
-        signInLauncher.launch(intent)
-    }
+
 }
 
 @Composable
@@ -193,3 +186,9 @@ fun isValidPassword(password: String): Boolean {
 }
 
 
+fun navigateToSignUpScreen(context: Context) {
+    Intent(context, SignUpActivity::class.java).apply {
+        context.startActivity(this)
+    }
+
+}

@@ -1,5 +1,7 @@
 package org.sopt.and
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -121,3 +123,18 @@ fun MyPageScreenPreview() {
     )
 }
 
+
+fun navigateToMyPageScreen(context: Context) {
+    Intent(context, MyActivity::class.java).apply {
+        context.startActivity(this)
+    }
+}
+
+
+fun navigateToMyPageScreen(context: Context, email: String) {
+    Intent(context, MyActivity::class.java).apply {
+        putExtra(EMAIL, email)
+        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        context.startActivity(this)
+    }
+}
