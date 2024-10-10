@@ -18,9 +18,10 @@ import androidx.compose.ui.unit.dp
 import org.sopt.and.R
 
 @Composable
-fun RightButtonTopBar(
+fun TopBar(
     text: String,
-    @DrawableRes id: Int
+    @DrawableRes id: Int,
+    alignment: Alignment
 ) {
     Box(
         modifier = Modifier
@@ -40,47 +41,19 @@ fun RightButtonTopBar(
             contentDescription = null,
             tint = Color.White,
             modifier = Modifier
-                .align(Alignment.CenterEnd)
+                .align(alignment)
                 .padding(16.dp)
         )
     }
 }
 
-@Composable
-fun LeftButtonTopBar(
-    text: String,
-    @DrawableRes id: Int
-) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 0.dp),
-        contentAlignment = Alignment.Center
 
-    ) {
-        Text(
-            text = text,
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center,
-            color = Color.White
-        )
-        Icon(
-            painter = painterResource(id = id),
-            contentDescription = null,
-            tint = Color.White,
-            modifier = Modifier
-                .align(Alignment.CenterStart)
-                .padding(16.dp)
-        )
-    }
-}
 
 @Preview
 @Composable
 private fun TopBarPreview() {
     Column {
-        RightButtonTopBar("회원가입", R.drawable.ic_top_bar_close)
-        LeftButtonTopBar("회원가입", R.drawable.ic_top_bar_close)
-
+        TopBar("회원가입", R.drawable.ic_top_bar_close, Alignment.CenterStart)
+        TopBar("회원가입", R.drawable.ic_top_bar_close, Alignment.CenterEnd)
     }
 }
