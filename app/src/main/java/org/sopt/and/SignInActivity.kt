@@ -7,8 +7,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -43,6 +41,7 @@ import org.sopt.and.component.EmailTextField
 import org.sopt.and.component.LeftButtonTopBar
 import org.sopt.and.component.PasswordTextField
 import org.sopt.and.ui.theme.ANDANDROIDTheme
+import org.sopt.and.util.noRippleClickable
 
 class SignInActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -121,10 +120,7 @@ fun SignInScreen(
                     .fillMaxWidth()
                     .background(color = Color(0xFF1353FA), shape = RoundedCornerShape(25.dp))
                     .padding(vertical = 15.dp)
-                    .clickable(
-                        indication = null,
-                        interactionSource = remember { MutableInteractionSource() }
-                    ) {
+                    .noRippleClickable {
                         coroutine.launch {
                             if (email.isNotEmpty() && email == userEmail.value && password == userPassword.value) {
                                 snackBarHostState.showSnackbar(message = context.getString(R.string.sign_in_success))
@@ -149,10 +145,7 @@ fun SignInScreen(
                     text = stringResource(id = R.string.navigation_to_sign_up),
                     color = Color(0xFFB0B0B0),
                     fontSize = 12.sp,
-                    modifier = Modifier.clickable(
-                        indication = null,
-                        interactionSource = remember { MutableInteractionSource() }
-                    ) {
+                    modifier = Modifier.noRippleClickable {
                         navigateToSignUpScreen()
                     }
                 )

@@ -9,8 +9,6 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -37,6 +35,7 @@ import org.sopt.and.component.EmailTextField
 import org.sopt.and.component.PasswordTextField
 import org.sopt.and.component.RightButtonTopBar
 import org.sopt.and.ui.theme.ANDANDROIDTheme
+import org.sopt.and.util.noRippleClickable
 import org.sopt.and.util.showToast
 import java.util.regex.Pattern
 
@@ -54,12 +53,10 @@ class SignUpActivity : ComponentActivity() {
         setContent {
             ANDANDROIDTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    SignUpScreen(
-                        modifier = Modifier.padding(innerPadding),
+                    SignUpScreen(modifier = Modifier.padding(innerPadding),
                         onSignUpSuccess = { email, password ->
                             navigateToSignInScreenWithData(this, email, password)
-                        }
-                    )
+                        })
                 }
             }
         }
@@ -87,8 +84,7 @@ fun SignUpScreen(modifier: Modifier = Modifier, onSignUpSuccess: (String, String
             .background(color = Color(0xFF1B1B1B))
     ) {
         RightButtonTopBar(
-            text = stringResource(id = R.string.sign_up_top_bar),
-            R.drawable.ic_top_bar_close
+            text = stringResource(id = R.string.sign_up_top_bar), R.drawable.ic_top_bar_close
         )
         Spacer(modifier = Modifier.height(20.dp))
         Column(
@@ -97,8 +93,7 @@ fun SignUpScreen(modifier: Modifier = Modifier, onSignUpSuccess: (String, String
                 .padding(horizontal = 11.dp)
         ) {
             Text(
-                text = stringResource(id = R.string.introduction),
-                color = Color.White
+                text = stringResource(id = R.string.introduction), color = Color.White
             )
             Spacer(modifier = Modifier.height(20.dp))
             EmailTextField(
@@ -130,13 +125,11 @@ fun SignUpScreen(modifier: Modifier = Modifier, onSignUpSuccess: (String, String
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.weight(1f))
-        Text(
-            text = stringResource(id = R.string.sign_up_button_text),
+        Text(text = stringResource(id = R.string.sign_up_button_text),
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable(enabled = buttonClickable,
-                    indication = null,
-                    interactionSource = remember { MutableInteractionSource() }
+                .noRippleClickable(
+                    enabled = buttonClickable
                 ) {
                     onSignUpSuccess(userEmail.value, userPassword.value)
                     context.showToast(context.getString(R.string.sign_up_success))
@@ -146,8 +139,7 @@ fun SignUpScreen(modifier: Modifier = Modifier, onSignUpSuccess: (String, String
                 )
                 .padding(vertical = 20.dp),
             textAlign = TextAlign.Center,
-            color = Color.White
-        )
+            color = Color.White)
     }
 }
 
