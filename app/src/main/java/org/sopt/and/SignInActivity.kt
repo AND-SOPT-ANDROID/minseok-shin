@@ -24,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -38,8 +39,8 @@ import kotlinx.coroutines.launch
 import org.sopt.and.User.EMAIL
 import org.sopt.and.User.PASSWORD
 import org.sopt.and.component.EmailTextField
-import org.sopt.and.component.LeftButtonTopBar
 import org.sopt.and.component.PasswordTextField
+import org.sopt.and.component.TopBar
 import org.sopt.and.ui.theme.ANDANDROIDTheme
 import org.sopt.and.util.noRippleClickable
 
@@ -92,9 +93,10 @@ fun SignInScreen(
             .background(color = Color(0xFF1B1B1B))
     ) {
 
-        LeftButtonTopBar(
+        TopBar(
             text = stringResource(id = R.string.sign_in_top_bar),
-            R.drawable.ic_top_bar_arrow_back_24
+            R.drawable.ic_top_bar_arrow_back_24,
+            alignment = Alignment.CenterStart
         )
         Spacer(modifier = Modifier.height(40.dp))
         Column(

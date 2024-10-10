@@ -22,6 +22,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -31,9 +32,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.sopt.and.Regex.REGEX
+import org.sopt.and.User.EMAIL
+import org.sopt.and.User.PASSWORD
 import org.sopt.and.component.EmailTextField
 import org.sopt.and.component.PasswordTextField
-import org.sopt.and.component.RightButtonTopBar
+import org.sopt.and.component.TopBar
 import org.sopt.and.ui.theme.ANDANDROIDTheme
 import org.sopt.and.util.noRippleClickable
 import org.sopt.and.util.showToast
@@ -45,9 +49,20 @@ class SignUpActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
         signInLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == RESULT_OK) {
+                    val data = result.data
+                    val email = data?.getStringExtra(EMAIL)
+                    val password = data?.getStringExtra(PASSWORD)
 
+                    if (email != null && password != null) {
+                        navigateToSignInScreenWithData(this, email, password)
+                    }
+                } else {
+                    showToast(message = getString(R.string.sign_up_failed))
+                }
             }
 
         setContent {
@@ -61,8 +76,6 @@ class SignUpActivity : ComponentActivity() {
             }
         }
     }
-
-
 }
 
 @Composable
@@ -83,8 +96,9 @@ fun SignUpScreen(modifier: Modifier = Modifier, onSignUpSuccess: (String, String
             .fillMaxSize()
             .background(color = Color(0xFF1B1B1B))
     ) {
-        RightButtonTopBar(
-            text = stringResource(id = R.string.sign_up_top_bar), R.drawable.ic_top_bar_close
+        TopBar(
+            text = stringResource(id = R.string.sign_up_top_bar), R.drawable.ic_top_bar_close,
+            alignment = Alignment.CenterEnd
         )
         Spacer(modifier = Modifier.height(20.dp))
         Column(
@@ -147,11 +161,11 @@ fun SignUpScreen(modifier: Modifier = Modifier, onSignUpSuccess: (String, String
 @Preview(showBackground = true)
 @Composable
 fun SignUpScreenPreview() {
-    SignUpScreen(onSignUpSuccess = { email, password -> {} })
+    SignUpScreen(onSignUpSuccess = { _, _ -> })
 }
 
 fun isValidEmail(email: String): Boolean {
-    val emailPattern = Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")
+    val emailPattern = Pattern.compile(REGEX)
     return emailPattern.matcher(email).matches()
 }
 

@@ -12,6 +12,7 @@
     <string name="password_visible_button_hide">HIDE</string>
     <string name="sign_up_button_text">Wavve 회원가입</string>
     <string name="sign_up_success">회원가입 성공</string>
+    <string name="sign_up_failed">회원가입 실패</string>
 
     <!-- Sign In -->
     <string name="sign_in_top_bar">Wavve</string>
