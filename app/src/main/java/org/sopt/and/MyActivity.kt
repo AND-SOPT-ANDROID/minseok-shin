@@ -23,8 +23,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -67,7 +69,7 @@ fun MyPageScreen(modifier: Modifier, email: String) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                painterResource(id = R.drawable.ic_my_page_person_24),
+                imageVector = ImageVector.vectorResource(id = R.drawable.ic_my_page_person_24),
                 contentDescription = null,
                 tint = Color.White,
                 modifier = Modifier
@@ -87,14 +89,14 @@ fun MyPageScreen(modifier: Modifier, email: String) {
             }
             Spacer(modifier = Modifier.weight(1f))
             Icon(
-                painterResource(id = R.drawable.ic_my_page_bell_24),
+                imageVector = ImageVector.vectorResource(id = R.drawable.ic_my_page_bell_24),
                 contentDescription = null,
                 tint = Color.White,
                 modifier = Modifier
                     .padding(end = 20.dp)
             )
             Icon(
-                painterResource(id = R.drawable.ic_my_page_settings_24),
+                imageVector = ImageVector.vectorResource(id = R.drawable.ic_my_page_settings_24),
                 contentDescription = null,
                 tint = Color.White
             )
@@ -130,7 +132,7 @@ fun navigateToMyPageScreen(context: Context) {
 }
 
 
-fun navigateToMyPageScreen(context: Context, email: String) {
+fun navigateToMyPageScreenWithData(context: Context, email: String) {
     Intent(context, MyActivity::class.java).apply {
         putExtra(EMAIL, email)
         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

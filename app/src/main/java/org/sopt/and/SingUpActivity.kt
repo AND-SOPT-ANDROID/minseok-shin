@@ -57,8 +57,9 @@ class SignUpActivity : ComponentActivity() {
                     SignUpScreen(
                         modifier = Modifier.padding(innerPadding),
                         onSignUpSuccess = { email, password ->
-                            navigateToSignInScreen(this, email, password)
-                        })
+                            navigateToSignInScreenWithData(this, email, password)
+                        }
+                    )
                 }
             }
         }

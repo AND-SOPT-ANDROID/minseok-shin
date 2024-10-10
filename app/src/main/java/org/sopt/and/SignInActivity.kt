@@ -59,7 +59,7 @@ class SignInActivity : ComponentActivity() {
                         email = email,
                         password = password,
                         onSignInSuccess = { userEmail ->
-                            navigateToMyPageScreen(this, userEmail)
+                            navigateToMyPageScreenWithData(this, userEmail)
                         },
                         navigateToSignUpScreen = {
                             navigateToSignUpScreen(this)
@@ -69,7 +69,6 @@ class SignInActivity : ComponentActivity() {
             }
         }
     }
-
 }
 
 @Composable
@@ -193,12 +192,10 @@ fun navigateToSignInScreen(context: Context) {
     }
 }
 
-fun navigateToSignInScreen(context: Context, email: String, password: String) {
+fun navigateToSignInScreenWithData(context: Context, email: String, password: String) {
     Intent(context, SignInActivity::class.java).apply {
         putExtra(EMAIL, email)
         putExtra(PASSWORD, password)
         context.startActivity(this)
     }
 }
-
-
