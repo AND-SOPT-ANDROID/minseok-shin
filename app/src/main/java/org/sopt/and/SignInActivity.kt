@@ -126,14 +126,12 @@ fun SignInScreen(
                         indication = null,
                         interactionSource = remember { MutableInteractionSource() }
                     ) {
-                        if (email.isNotEmpty() && email == userEmail.value && password == userPassword.value) {
-                            coroutine.launch {
+                        coroutine.launch {
+                            if (email.isNotEmpty() && email == userEmail.value && password == userPassword.value) {
                                 snackBarHostState.showSnackbar(message = context.getString(R.string.sign_in_success))
                                 delay(500)
                                 onSignInSuccess(userEmail.value)
-                            }
-                        } else {
-                            coroutine.launch {
+                            } else {
                                 snackBarHostState.showSnackbar(message = context.getString(R.string.sign_in_failed))
                             }
                         }
