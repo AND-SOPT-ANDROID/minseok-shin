@@ -32,7 +32,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.sopt.and.Regex.REGEX
+import org.sopt.and.Regex.EMAIL_REGEX
+import org.sopt.and.Regex.PASSWORD_REGEX
 import org.sopt.and.User.EMAIL
 import org.sopt.and.User.PASSWORD
 import org.sopt.and.component.EmailTextField
@@ -41,7 +42,6 @@ import org.sopt.and.component.TopBar
 import org.sopt.and.ui.theme.ANDANDROIDTheme
 import org.sopt.and.util.noRippleClickable
 import org.sopt.and.util.showToast
-import java.util.regex.Pattern
 
 class SignUpActivity : ComponentActivity() {
     private lateinit var signInLauncher: ActivityResultLauncher<Intent>
@@ -64,7 +64,6 @@ class SignUpActivity : ComponentActivity() {
                     showToast(message = getString(R.string.sign_up_failed))
                 }
             }
-
         setContent {
             ANDANDROIDTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
@@ -74,6 +73,15 @@ class SignUpActivity : ComponentActivity() {
                         })
                 }
             }
+        }
+    }
+
+    private fun navigateToSignInScreenWithData(context: Context, email: String, password: String) {
+        Intent(context, SignInActivity::class.java).apply {
+            putExtra(EMAIL, email)
+            putExtra(PASSWORD, password)
+            context.startActivity(this)
+            setResult(RESULT_OK)
         }
     }
 }
@@ -165,9 +173,11 @@ fun SignUpScreenPreview() {
     SignUpScreen(onSignUpSuccess = { _, _ -> })
 }
 
+private val emailPattern = EMAIL_REGEX.toRegex()
+
+
 fun isValidEmail(email: String): Boolean {
-    val emailPattern = Pattern.compile(REGEX)
-    return emailPattern.matcher(email).matches()
+    return emailPattern.matches(email)
 }
 
 fun isValidPassword(password: String): Boolean {
@@ -178,7 +188,7 @@ fun isValidPassword(password: String): Boolean {
     val lowercase = password.count { it.isLowerCase() }
     val uppercase = password.count { it.isUpperCase() }
     val digit = password.count { it.isDigit() }
-    val specialChar = password.count { it in "!@#\$%^&*() _+\\-=\\[\\]{};':\"\\\\|,.<>\\/?" }
+    val specialChar = password.count { it in PASSWORD_REGEX }
 
     val characterTypesCount =
         listOf(lowercase > 0, uppercase > 0, digit > 0, specialChar > 0).count { it }

@@ -69,6 +69,8 @@ class SignInActivity : ComponentActivity() {
             }
         }
     }
+
+
 }
 
 @Composable
@@ -92,7 +94,6 @@ fun SignInScreen(
             .fillMaxSize()
             .background(color = Color(0xFF1B1B1B))
     ) {
-
         TopBar(
             text = stringResource(id = R.string.sign_in_top_bar),
             id = R.drawable.ic_top_bar_arrow_back_24,
@@ -159,7 +160,6 @@ fun SignInScreen(
             )
             Spacer(modifier = Modifier.weight(1f))
             SnackbarHost(hostState = snackBarHostState)
-
         }
 
     }
@@ -179,14 +179,6 @@ fun SignInScreenPreview() {
 
 fun navigateToSignInScreen(context: Context) {
     Intent(context, SignInActivity::class.java).apply {
-        context.startActivity(this)
-    }
-}
-
-fun navigateToSignInScreenWithData(context: Context, email: String, password: String) {
-    Intent(context, SignInActivity::class.java).apply {
-        putExtra(EMAIL, email)
-        putExtra(PASSWORD, password)
         context.startActivity(this)
     }
 }
