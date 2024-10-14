@@ -93,11 +93,10 @@ fun SignUpScreen(modifier: Modifier = Modifier, onSignUpSuccess: (String, String
     val userPassword = remember { mutableStateOf("") }
     val passwordVisible = remember { mutableStateOf(false) }
 
-    val buttonClickable by remember {
-        derivedStateOf {
-            isValidEmail(userEmail.value) && isValidPassword(userPassword.value)
-        }
-    }
+    val buttonClickable by remember(
+        userEmail.value,
+        userPassword.value
+    ) { derivedStateOf { isValidEmail(userEmail.value) && isValidPassword(userPassword.value) } }
 
     Column(
         modifier = modifier
