@@ -1,3 +1,36 @@
 <resources>
     <string name="app_name">AND-ANDROID</string>
+
+    <!-- Sign Up -->
+    <string name="sign_up_top_bar">회원가입</string>
+    <string name="introduction">이메일과 비밀번호만으로\nWavve를 즐길 수 있어요!</string>
+    <string name="sign_up_email_placeholder">wavve@example.com</string>
+    <string name="email_description">! 로그인, 비말번호 찾기, 알림에 사용되니 정확한 이메일을 입력해\n주세요.</string>
+    <string name="sign_up_password_placeholder">Wavve 비밀번호 설정</string>
+    <string name="password_description">! 비밀번호는 8~20자 이내로 영문 대소문자, 숫자, 특수문자 중\n3가지 이상 혼용하여 입력해 주세요.</string>
+    <string name="password_visible_button_show">SHOW</string>
+    <string name="password_visible_button_hide">HIDE</string>
+    <string name="sign_up_button_text">Wavve 회원가입</string>
+    <string name="sign_up_success">회원가입 성공</string>
+    <string name="sign_up_failed">회원가입 실패</string>
+
+    <!-- Sign In -->
+    <string name="sign_in_top_bar">Wavve</string>
+    <string name="sign_in_password_placeholder">비밀번호</string>
+    <string name="sign_in_email_placeholder">이메일 주소 또는 아이디</string>
+    <string name="sign_in_button_text">로그인</string>
+    <string name="find_id_password">아이디 찾기  |  비밀번호 재설정  |  </string>
+    <string name="navigation_to_sign_up">회원가입</string>
+    <string name="sign_in_success">로그인 성공</string>
+    <string name="sign_in_failed">로그인 실패</string>
+
+    <!-- My Page -->
+    <string name="my_page_purchase">구매하기</string>
+    <string name="my_page_first_box_description">첫 결제 시 첫 달 100원!</string>
+    <string name="my_page_second_box_description">현재 보유하신 이용권이 없습니다.</string>
+    <string name="my_page_view_history">전체 시청내역</string>
+    <string name="my_page_view_history_description">시청내역이 없어요</string>
+    <string name="my_page_favorite_program">관심 프로그램</string>
+    <string name="my_page_favorite_program_description">관심프로그램이 없어요</string>
+
 </resources>
