@@ -1,10 +1,5 @@
-package org.sopt.and
+package org.sopt.and.presentation.signin
 
-import android.content.Context
-import android.content.Intent
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -16,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -34,51 +28,23 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.sopt.and.User.EMAIL
-import org.sopt.and.User.PASSWORD
-import org.sopt.and.component.EmailTextField
-import org.sopt.and.component.PasswordTextField
-import org.sopt.and.component.TopBar
-import org.sopt.and.ui.theme.ANDANDROIDTheme
+import org.sopt.and.R
+import org.sopt.and.domain.User
+import org.sopt.and.presentation.component.EmailTextField
+import org.sopt.and.presentation.component.PasswordTextField
+import org.sopt.and.presentation.component.TopBar
+import org.sopt.and.presentation.signup.SignUpViewModel
 import org.sopt.and.util.noRippleClickable
-
-class SignInActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val email = intent.getStringExtra(EMAIL) ?: ""
-        val password = intent.getStringExtra(PASSWORD) ?: ""
-
-        setContent {
-            ANDANDROIDTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    SignInScreen(
-                        modifier = Modifier.padding(innerPadding),
-                        email = email,
-                        password = password,
-                        onSignInSuccess = { userEmail ->
-                            navigateToMyPageScreenWithData(this, userEmail)
-                        },
-                        navigateToSignUpScreen = {
-                            navigateToSignUpScreen(this)
-                        }
-                    )
-                }
-            }
-        }
-    }
-
-
-}
 
 @Composable
 fun SignInScreen(
     modifier: Modifier = Modifier,
-    email: String,
-    password: String,
-    onSignInSuccess: (String) -> Unit,
+    signInViewModel: SignInViewModel = viewModel(),
+    signUpViewModel: SignUpViewModel = viewModel(),
+    onSignInSuccess: (User) -> Unit,
     navigateToSignUpScreen: () -> Unit
 ) {
     val userEmail = remember { mutableStateOf("") }
@@ -107,13 +73,13 @@ fun SignInScreen(
         ) {
             EmailTextField(
                 userEmail = userEmail,
-                placeHolder = stringResource(id = R.string.sign_in_email_placeholder)
+                placeHolder = stringResource(id = R.string.sign_in_email_placeholder),
             )
             Spacer(modifier = Modifier.height(10.dp))
             PasswordTextField(
                 userPassword = userPassword,
                 passwordVisible = passwordVisible,
-                placeHolder = stringResource(id = R.string.sign_in_password_placeholder)
+                placeHolder = stringResource(id = R.string.sign_in_password_placeholder),
             )
             Spacer(modifier = Modifier.height(30.dp))
 
@@ -125,10 +91,11 @@ fun SignInScreen(
                     .padding(vertical = 15.dp)
                     .noRippleClickable {
                         coroutine.launch {
-                            if (email.isNotEmpty() && email == userEmail.value && password == userPassword.value) {
+                            val savedUser = signUpViewModel.user.value
+                            if (savedUser != null && savedUser.email == userEmail.value && savedUser.password == userPassword.value) {
                                 snackBarHostState.showSnackbar(message = context.getString(R.string.sign_in_success))
                                 delay(300)
-                                onSignInSuccess(userEmail.value)
+                                onSignInSuccess(savedUser)
                             } else {
                                 snackBarHostState.showSnackbar(message = context.getString(R.string.sign_in_failed))
                             }
@@ -150,8 +117,7 @@ fun SignInScreen(
                     fontSize = 12.sp,
                     modifier = Modifier.noRippleClickable {
                         navigateToSignUpScreen()
-                    }
-                )
+                    })
             }
             Image(
                 painter = painterResource(id = R.drawable.img_sign_up_image),
@@ -161,24 +127,11 @@ fun SignInScreen(
             Spacer(modifier = Modifier.weight(1f))
             SnackbarHost(hostState = snackBarHostState)
         }
-
     }
 }
-
 
 @Preview
 @Composable
 fun SignInScreenPreview() {
-    SignInScreen(
-        email = "",
-        password = "",
-        onSignInSuccess = {},
-        navigateToSignUpScreen = {}
-    )
-}
-
-fun navigateToSignInScreen(context: Context) {
-    Intent(context, SignInActivity::class.java).apply {
-        context.startActivity(this)
-    }
+    SignInScreen(onSignInSuccess = {}, navigateToSignUpScreen = {})
 }

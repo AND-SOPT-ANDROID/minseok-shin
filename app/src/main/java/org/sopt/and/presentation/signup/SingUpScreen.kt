@@ -1,12 +1,5 @@
-package org.sopt.and
+package org.sopt.and.presentation.signup
 
-import android.content.Context
-import android.content.Intent
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -15,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -32,62 +24,21 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import org.sopt.and.R
 import org.sopt.and.Regex.EMAIL_REGEX
 import org.sopt.and.Regex.PASSWORD_REGEX
-import org.sopt.and.User.EMAIL
-import org.sopt.and.User.PASSWORD
-import org.sopt.and.component.EmailTextField
-import org.sopt.and.component.PasswordTextField
-import org.sopt.and.component.TopBar
-import org.sopt.and.ui.theme.ANDANDROIDTheme
+import org.sopt.and.presentation.component.EmailTextField
+import org.sopt.and.presentation.component.PasswordTextField
+import org.sopt.and.presentation.component.TopBar
 import org.sopt.and.util.noRippleClickable
 import org.sopt.and.util.showToast
 
-class SignUpActivity : ComponentActivity() {
-    private lateinit var signInLauncher: ActivityResultLauncher<Intent>
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-
-        signInLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                if (result.resultCode == RESULT_OK) {
-                    val data = result.data
-                    val email = data?.getStringExtra(EMAIL)
-                    val password = data?.getStringExtra(PASSWORD)
-
-                    if (email != null && password != null) {
-                        navigateToSignInScreenWithData(this, email, password)
-                    }
-                } else {
-                    showToast(message = getString(R.string.sign_up_failed))
-                }
-            }
-        setContent {
-            ANDANDROIDTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    SignUpScreen(modifier = Modifier.padding(innerPadding),
-                        onSignUpSuccess = { email, password ->
-                            navigateToSignInScreenWithData(this, email, password)
-                        })
-                }
-            }
-        }
-    }
-
-    private fun navigateToSignInScreenWithData(context: Context, email: String, password: String) {
-        Intent(context, SignInActivity::class.java).apply {
-            putExtra(EMAIL, email)
-            putExtra(PASSWORD, password)
-            context.startActivity(this)
-            setResult(RESULT_OK)
-        }
-    }
-}
-
 @Composable
-fun SignUpScreen(modifier: Modifier = Modifier, onSignUpSuccess: (String, String) -> Unit) {
+fun SignUpScreen(
+    modifier: Modifier = Modifier,
+    signUpViewModel: SignUpViewModel = viewModel(),
+) {
     val context = LocalContext.current
     val userEmail = remember { mutableStateOf("") }
     val userPassword = remember { mutableStateOf("") }
@@ -153,7 +104,7 @@ fun SignUpScreen(modifier: Modifier = Modifier, onSignUpSuccess: (String, String
                 .noRippleClickable(
                     enabled = buttonClickable
                 ) {
-                    onSignUpSuccess(userEmail.value, userPassword.value)
+                    signUpViewModel.signUp(userEmail.value, userPassword.value)
                     context.showToast(context.getString(R.string.sign_up_success))
                 }
                 .background(
@@ -169,7 +120,7 @@ fun SignUpScreen(modifier: Modifier = Modifier, onSignUpSuccess: (String, String
 @Preview(showBackground = true)
 @Composable
 fun SignUpScreenPreview() {
-    SignUpScreen(onSignUpSuccess = { _, _ -> })
+    SignUpScreen()
 }
 
 private val emailPattern = EMAIL_REGEX.toRegex()
@@ -195,10 +146,3 @@ fun isValidPassword(password: String): Boolean {
     return characterTypesCount >= 3
 }
 
-
-fun navigateToSignUpScreen(context: Context) {
-    Intent(context, SignUpActivity::class.java).apply {
-        context.startActivity(this)
-    }
-
-}

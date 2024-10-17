@@ -1,10 +1,5 @@
-package org.sopt.and
+package org.sopt.and.presentation.mypage
 
-import android.content.Context
-import android.content.Intent
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,7 +10,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,31 +22,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.sopt.and.User.EMAIL
-import org.sopt.and.component.MyPageBox
-import org.sopt.and.component.MyPagePurchaseBox
-import org.sopt.and.ui.theme.ANDANDROIDTheme
+import androidx.lifecycle.viewmodel.compose.viewModel
+import org.sopt.and.R
+import org.sopt.and.presentation.component.MyPageBox
+import org.sopt.and.presentation.component.MyPagePurchaseBox
 
-class MyActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val email = intent.getStringExtra(EMAIL) ?: ""
-        setContent {
-            ANDANDROIDTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MyPageScreen(
-                        modifier = Modifier.padding(innerPadding),
-                        email = email
-                    )
-                }
-            }
-        }
-    }
-}
 
 @Composable
-fun MyPageScreen(modifier: Modifier = Modifier, email: String) {
+fun MyPageScreen(modifier: Modifier = Modifier, myPageViewModel: MyPageViewModel = viewModel()) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -74,7 +51,7 @@ fun MyPageScreen(modifier: Modifier = Modifier, email: String) {
                     .size(60.dp)
             )
             Text(
-                text = email,
+                text = myPageViewModel.user.value?.email ?: "",
                 color = Color.White,
                 fontSize = 20.sp,
                 maxLines = 1,
@@ -111,23 +88,6 @@ fun MyPageScreen(modifier: Modifier = Modifier, email: String) {
 @Preview
 @Composable
 fun MyPageScreenPreview() {
-    MyPageScreen(
-        email = "minsuk07672@naver.com"
-    )
+    MyPageScreen()
 }
 
-
-fun navigateToMyPageScreen(context: Context) {
-    Intent(context, MyActivity::class.java).apply {
-        context.startActivity(this)
-    }
-}
-
-
-fun navigateToMyPageScreenWithData(context: Context, email: String) {
-    Intent(context, MyActivity::class.java).apply {
-        putExtra(EMAIL, email)
-        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        context.startActivity(this)
-    }
-}

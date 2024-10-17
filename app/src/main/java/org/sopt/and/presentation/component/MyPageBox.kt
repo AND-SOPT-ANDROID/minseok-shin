@@ -1,4 +1,4 @@
-package org.sopt.and.component
+package org.sopt.and.presentation.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.sp
 import org.sopt.and.R
 
 @Composable
-fun MyPagePurchaseBox(modifier: Modifier=Modifier,description: String) {
+fun MyPagePurchaseBox(modifier: Modifier = Modifier, description: String) {
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -32,9 +32,11 @@ fun MyPagePurchaseBox(modifier: Modifier=Modifier,description: String) {
             .padding(top = 10.dp, start = 20.dp, end = 20.dp, bottom = 25.dp)
     ) {
 
-        Text(text = description, color = Color(0xFFA5A5A5),
-            modifier = modifier.padding(bottom = 5.dp))
-        Row (verticalAlignment = Alignment.CenterVertically){
+        Text(
+            text = description, color = Color(0xFFA5A5A5),
+            modifier = modifier.padding(bottom = 5.dp)
+        )
+        Row(verticalAlignment = Alignment.CenterVertically) {
             Text(text = stringResource(R.string.my_page_purchase), color = Color.White)
             Column {
                 Spacer(modifier = Modifier.height(2.dp))
@@ -53,11 +55,13 @@ fun MyPagePurchaseBox(modifier: Modifier=Modifier,description: String) {
 }
 
 @Composable
-fun MyPageBox(modifier: Modifier=Modifier,title:String,description: String) {
-    Column (modifier = modifier
-        .fillMaxWidth()
-        .padding(horizontal = 11.dp),
-        horizontalAlignment = Alignment.CenterHorizontally){
+fun MyPageBox(modifier: Modifier = Modifier, title: String, description: String) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 11.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Text(
             text = title,
             color = Color.White,
@@ -84,7 +88,7 @@ fun MyPageBox(modifier: Modifier=Modifier,title:String,description: String) {
 
         Spacer(modifier = modifier.height(40.dp))
     }
-    
+
 }
 
 @Preview
@@ -92,6 +96,9 @@ fun MyPageBox(modifier: Modifier=Modifier,title:String,description: String) {
 fun MyPageBoxPreView() {
     Column {
         MyPagePurchaseBox(description = "첫 결제 시 첫 달 100원!")
-        MyPageBox(title = stringResource(R.string.my_page_view_history), description = stringResource(R.string.my_page_view_history_description))
+        MyPageBox(
+            title = stringResource(R.string.my_page_view_history),
+            description = stringResource(R.string.my_page_view_history_description)
+        )
     }
 }
