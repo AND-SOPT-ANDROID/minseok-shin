@@ -8,46 +8,32 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import org.sopt.and.R
 
 @Composable
 fun CategoryBar(modifier: Modifier = Modifier) {
-    Row(modifier = modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-        Text(
-            text = "뉴클래식",
-            color = Color.LightGray,
-            fontWeight = FontWeight.SemiBold
-        )
-        Spacer(modifier = Modifier.weight(1f))
-        Text(
-            text = "드라마",
-            color = Color.LightGray,
-            fontWeight = FontWeight.SemiBold
-        )
-        Spacer(modifier = Modifier.weight(1f))
-        Text(
-            text = "예능",
-            color = Color.LightGray,
-            fontWeight = FontWeight.SemiBold
-        )
-        Spacer(modifier = Modifier.weight(1f))
-        Text(
-            text = "영화",
-            color = Color.LightGray,
-            fontWeight = FontWeight.SemiBold
-        )
-        Spacer(modifier = Modifier.weight(1f))
-        Text(
-            text = "애니",
-            color = Color.LightGray,
-            fontWeight = FontWeight.SemiBold
-        )
-        Spacer(modifier = Modifier.weight(1f))
-        Text(
-            text = "해외시리즈",
-            color = Color.LightGray,
-            fontWeight = FontWeight.SemiBold
-        )
-    }
+    val categories = listOf(
+        R.string.home_category_classic,
+        R.string.home_category_drama,
+        R.string.home_category_variety,
+        R.string.home_category_movie,
+        R.string.home_category_anime,
+        R.string.home_category_foreign_series
+    )
 
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        categories.forEach { categoryResId ->
+            Text(
+                text = stringResource(id = categoryResId),
+                color = Color.LightGray,
+                fontWeight = FontWeight.SemiBold
+            )
+            Spacer(modifier = Modifier.weight(1f))
+        }
+    }
 }

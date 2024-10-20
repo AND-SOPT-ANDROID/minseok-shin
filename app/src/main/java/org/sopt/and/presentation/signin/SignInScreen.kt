@@ -61,7 +61,7 @@ fun SignInScreen(
             .background(color = Color(0xFF1B1B1B))
     ) {
         TopBar(
-            text = stringResource(id = R.string.sign_in_top_bar),
+            text = stringResource(id = R.string.all_app_title),
             id = R.drawable.ic_top_bar_arrow_back_24,
             alignment = Alignment.CenterStart
         )

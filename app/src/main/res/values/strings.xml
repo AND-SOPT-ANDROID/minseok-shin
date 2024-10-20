@@ -1,6 +1,29 @@
 <resources>
     <string name="app_name">AND-ANDROID</string>
 
+    <!-- All -->
+    <string name="all_app_title">Wavve</string>
+
+    <!-- Home -->
+    <string name="home_recommend_title">믿고 보는 웨이브 에디터 추천작</string>
+    <string name="home_top20_title">오늘 TOP 20</string>
+    <string name="home_category_classic">뉴클래식</string>
+    <string name="home_category_drama">드라마</string>
+    <string name="home_category_variety">예능</string>
+    <string name="home_category_movie">영화</string>
+    <string name="home_category_anime">애니</string>
+    <string name="home_category_foreign_series">해외시리즈</string>
+
+
+    <!-- My Page -->
+    <string name="my_page_purchase">구매하기</string>
+    <string name="my_page_first_box_description">첫 결제 시 첫 달 100원!</string>
+    <string name="my_page_second_box_description">현재 보유하신 이용권이 없습니다.</string>
+    <string name="my_page_view_history">전체 시청내역</string>
+    <string name="my_page_view_history_description">시청내역이 없어요</string>
+    <string name="my_page_favorite_program">관심 프로그램</string>
+    <string name="my_page_favorite_program_description">관심프로그램이 없어요</string>
+
     <!-- Sign Up -->
     <string name="sign_up_top_bar">회원가입</string>
     <string name="introduction">이메일과 비밀번호만으로\nWavve를 즐길 수 있어요!</string>
@@ -15,7 +38,6 @@
     <string name="sign_up_failed">회원가입 실패</string>
 
     <!-- Sign In -->
-    <string name="sign_in_top_bar">Wavve</string>
     <string name="sign_in_password_placeholder">비밀번호</string>
     <string name="sign_in_email_placeholder">이메일 주소 또는 아이디</string>
     <string name="sign_in_button_text">로그인</string>
@@ -23,14 +45,5 @@
     <string name="navigation_to_sign_up">회원가입</string>
     <string name="sign_in_success">로그인 성공</string>
     <string name="sign_in_failed">로그인 실패</string>
-
-    <!-- My Page -->
-    <string name="my_page_purchase">구매하기</string>
-    <string name="my_page_first_box_description">첫 결제 시 첫 달 100원!</string>
-    <string name="my_page_second_box_description">현재 보유하신 이용권이 없습니다.</string>
-    <string name="my_page_view_history">전체 시청내역</string>
-    <string name="my_page_view_history_description">시청내역이 없어요</string>
-    <string name="my_page_favorite_program">관심 프로그램</string>
-    <string name="my_page_favorite_program_description">관심프로그램이 없어요</string>
 
 </resources>

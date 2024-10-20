@@ -11,8 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
@@ -31,7 +30,7 @@ fun BannerViewPager(modifier: Modifier = Modifier, pagerState: PagerState, image
                 .height(450.dp)
         ) {
             Image(
-                imageVector = ImageVector.vectorResource(id = images[page]),
+                painter = painterResource(id = images[page]),
                 contentDescription = null,
                 modifier = Modifier.fillMaxWidth(),
                 alignment = Alignment.Center
@@ -55,12 +54,11 @@ private fun BannerPreview() {
         R.drawable.img_home_banner4
     )
 
-    // pagerState 초기화
     val pagerState = rememberPagerState(initialPage = 0, pageCount = { images.size })
 
     LaunchedEffect(Unit) {
         while (true) {
-            delay(1500) // 1초 대기
+            delay(1500)
             val nextPage = (pagerState.currentPage + 1) % images.size
             pagerState.animateScrollToPage(nextPage)
         }

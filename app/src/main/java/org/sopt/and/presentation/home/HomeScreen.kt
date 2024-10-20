@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -79,14 +80,13 @@ fun HomeScreen(modifier: Modifier = Modifier) {
             .padding(horizontal = 14.dp)
     ) {
         stickyHeader {
-            Column (
+            Column(
                 modifier = modifier
                     .background(color = Color(0xFF1B1B1B))
-            ){
+            ) {
                 Row(modifier = Modifier.fillMaxWidth()) {
                     Text(
-                        text = "Wavve",
-                        fontSize = 20.sp,
+                        text = stringResource(id = R.string.all_app_title), fontSize = 20.sp,
                         color = Color.White,
                         fontWeight = FontWeight.ExtraBold,
                         modifier = Modifier.padding(vertical = 10.dp)
@@ -100,11 +100,11 @@ fun HomeScreen(modifier: Modifier = Modifier) {
         item {
             BannerViewPager(pagerState = pagerState, images = bannerImages)
             Spacer(modifier = Modifier.height(20.dp))
-            HomeViewContentsTitle(text = "믿고 보는 웨이브 에디터 추천작")
+            HomeViewContentsTitle(text = stringResource(R.string.home_recommend_title))
             HomeViewLazyRow(images = recommendImages)
             Spacer(modifier = Modifier.height(20.dp))
-            HomeViewContentsTitle(text = "오늘의 TOP 20", hasIcon = false)
-            HomeViewTop20LazyRow(images =top20Images)
+            HomeViewContentsTitle(text = stringResource(R.string.home_top20_title), hasIcon = false)
+            HomeViewTop20LazyRow(images = top20Images)
         }
     }
 }
