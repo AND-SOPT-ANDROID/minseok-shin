@@ -1,4 +1,4 @@
-package org.sopt.and.presentation.component
+package org.sopt.and.presentation.mypage.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column

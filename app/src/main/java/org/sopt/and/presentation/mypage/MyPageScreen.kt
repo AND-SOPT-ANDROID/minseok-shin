@@ -24,8 +24,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.sopt.and.R
-import org.sopt.and.presentation.component.MyPageBox
-import org.sopt.and.presentation.component.MyPagePurchaseBox
+import org.sopt.and.presentation.mypage.component.MyPageBox
+import org.sopt.and.presentation.mypage.component.MyPagePurchaseBox
 
 
 @Composable
