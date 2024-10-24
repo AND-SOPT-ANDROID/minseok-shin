@@ -55,7 +55,7 @@ fun SignInScreen(
     val snackBarHostState = remember { SnackbarHostState() }
     val coroutine = rememberCoroutineScope()
 
-    signInViewModel.updateUser(email = email.toString(), password = password)
+    signInViewModel.updateUser(email = email, password = password)
 
     Column(
         modifier = modifier

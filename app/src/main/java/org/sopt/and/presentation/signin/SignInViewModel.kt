@@ -1,6 +1,5 @@
 package org.sopt.and.presentation.signin
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,10 +18,6 @@ class SignInViewModel : ViewModel() {
     }
 
     fun signIn(email: String, password: String): Boolean {
-        Log.d(
-            "ㅋㅋ",
-            "currentEmail: ${_user.value.email},currentPassword: ${_user.value.password} , inputEmail: $email inputPassword: $password"
-        )
         if (
             email == _user.value.email && password == _user.value.password) {
             _user.value = User(email, password)
