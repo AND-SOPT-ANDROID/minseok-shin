@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,28 +26,28 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.sopt.and.R
-import org.sopt.and.Regex.EMAIL_REGEX
-import org.sopt.and.Regex.PASSWORD_REGEX
+import org.sopt.and.domain.User
 import org.sopt.and.presentation.component.EmailTextField
 import org.sopt.and.presentation.component.PasswordTextField
 import org.sopt.and.presentation.component.TopBar
+import org.sopt.and.presentation.signin.SignInViewModel
 import org.sopt.and.util.noRippleClickable
 import org.sopt.and.util.showToast
 
 @Composable
 fun SignUpScreen(
-    modifier: Modifier = Modifier,
-    signUpViewModel: SignUpViewModel = viewModel(),
+    navigateToSignIn: (user: User) -> Unit = {},
+    signInViewModel: SignInViewModel = viewModel(),
+    modifier: Modifier = Modifier
 ) {
+    val signUpViewModel: SignUpViewModel = viewModel()
+
     val context = LocalContext.current
     val userEmail = remember { mutableStateOf("") }
     val userPassword = remember { mutableStateOf("") }
     val passwordVisible = remember { mutableStateOf(false) }
 
-    val buttonClickable by remember(
-        userEmail.value,
-        userPassword.value
-    ) { derivedStateOf { isValidEmail(userEmail.value) && isValidPassword(userPassword.value) } }
+    val buttonClickable by signUpViewModel.buttonClickable.collectAsState(false)
 
     Column(
         modifier = modifier
@@ -69,10 +69,12 @@ fun SignUpScreen(
                 text = stringResource(id = R.string.introduction), color = Color.White
             )
             Spacer(modifier = Modifier.height(20.dp))
-            EmailTextField(
-                userEmail = userEmail,
-                placeHolder = stringResource(id = R.string.sign_up_email_placeholder)
-            )
+            EmailTextField(userEmail = userEmail,
+                placeHolder = stringResource(id = R.string.sign_up_email_placeholder),
+                onValueChange = {
+                    userEmail.value = it
+                    signUpViewModel.onEmailChanged(it)
+                })
             Text(
                 text = stringResource(id = R.string.email_description),
                 color = Color.White,
@@ -80,9 +82,10 @@ fun SignUpScreen(
                 modifier = Modifier.padding(vertical = 10.dp)
             )
             PasswordTextField(
-                userPassword = userPassword,
-                passwordVisible = passwordVisible,
-                placeHolder = stringResource(id = R.string.sign_up_password_placeholder)
+                userPassword = userPassword, passwordVisible = passwordVisible, onValueChange = {
+                    userPassword.value = it
+                    signUpViewModel.onPasswordChanged(it)
+                }, placeHolder = stringResource(id = R.string.sign_up_password_placeholder)
             )
             Text(
                 text = stringResource(id = R.string.password_description),
@@ -98,6 +101,7 @@ fun SignUpScreen(
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.weight(1f))
+
         Text(text = stringResource(id = R.string.sign_up_button_text),
             modifier = Modifier
                 .fillMaxWidth()
@@ -105,6 +109,8 @@ fun SignUpScreen(
                     enabled = buttonClickable
                 ) {
                     signUpViewModel.signUp(userEmail.value, userPassword.value)
+                    signInViewModel.updateUser(userEmail.value, userPassword.value)
+                    navigateToSignIn(User(userEmail.value, userPassword.value))
                     context.showToast(context.getString(R.string.sign_up_success))
                 }
                 .background(
@@ -123,26 +129,4 @@ fun SignUpScreenPreview() {
     SignUpScreen()
 }
 
-private val emailPattern = EMAIL_REGEX.toRegex()
-
-
-fun isValidEmail(email: String): Boolean {
-    return emailPattern.matches(email)
-}
-
-fun isValidPassword(password: String): Boolean {
-    if (password.length !in 8..20) {
-        return false
-    }
-
-    val lowercase = password.count { it.isLowerCase() }
-    val uppercase = password.count { it.isUpperCase() }
-    val digit = password.count { it.isDigit() }
-    val specialChar = password.count { it in PASSWORD_REGEX }
-
-    val characterTypesCount =
-        listOf(lowercase > 0, uppercase > 0, digit > 0, specialChar > 0).count { it }
-
-    return characterTypesCount >= 3
-}
 

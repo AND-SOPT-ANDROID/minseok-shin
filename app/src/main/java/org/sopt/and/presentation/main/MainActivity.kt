@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import org.sopt.and.presentation.home.HomeScreen
 import org.sopt.and.ui.theme.ANDANDROIDTheme
 
 class MainActivity : ComponentActivity() {
@@ -13,8 +12,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ANDANDROIDTheme {
-//                MainScreen()
-                HomeScreen()
+                MainScreen()
             }
         }
     }

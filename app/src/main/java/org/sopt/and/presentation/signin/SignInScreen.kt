@@ -32,21 +32,21 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.sopt.and.R
-import org.sopt.and.domain.User
 import org.sopt.and.presentation.component.EmailTextField
 import org.sopt.and.presentation.component.PasswordTextField
 import org.sopt.and.presentation.component.TopBar
-import org.sopt.and.presentation.signup.SignUpViewModel
 import org.sopt.and.util.noRippleClickable
 
 @Composable
 fun SignInScreen(
-    modifier: Modifier = Modifier,
-    signInViewModel: SignInViewModel = viewModel(),
-    signUpViewModel: SignUpViewModel = viewModel(),
-    onSignInSuccess: (User) -> Unit,
-    navigateToSignUpScreen: () -> Unit
+    email: String = "",
+    password: String = "",
+    navigateToSignUp: () -> Unit = {},
+    navigateToMyPage: (Any?) -> Unit = {},
+    modifier: Modifier = Modifier
 ) {
+    val signInViewModel: SignInViewModel = viewModel()
+
     val userEmail = remember { mutableStateOf("") }
     val userPassword = remember { mutableStateOf("") }
     val passwordVisible = remember { mutableStateOf(false) }
@@ -54,6 +54,8 @@ fun SignInScreen(
 
     val snackBarHostState = remember { SnackbarHostState() }
     val coroutine = rememberCoroutineScope()
+
+    signInViewModel.updateUser(email = email.toString(), password = password)
 
     Column(
         modifier = modifier
@@ -91,11 +93,10 @@ fun SignInScreen(
                     .padding(vertical = 15.dp)
                     .noRippleClickable {
                         coroutine.launch {
-                            val savedUser = signUpViewModel.user.value
-                            if (savedUser != null && savedUser.email == userEmail.value && savedUser.password == userPassword.value) {
+                            if (signInViewModel.signIn(userEmail.value, userPassword.value)) {
                                 snackBarHostState.showSnackbar(message = context.getString(R.string.sign_in_success))
                                 delay(300)
-                                onSignInSuccess(savedUser)
+                                navigateToMyPage(userEmail.value)
                             } else {
                                 snackBarHostState.showSnackbar(message = context.getString(R.string.sign_in_failed))
                             }
@@ -116,7 +117,7 @@ fun SignInScreen(
                     color = Color(0xFFB0B0B0),
                     fontSize = 12.sp,
                     modifier = Modifier.noRippleClickable {
-                        navigateToSignUpScreen()
+                        navigateToSignUp()
                     })
             }
             Image(
@@ -133,5 +134,5 @@ fun SignInScreen(
 @Preview
 @Composable
 fun SignInScreenPreview() {
-    SignInScreen(onSignInSuccess = {}, navigateToSignUpScreen = {})
+    SignInScreen()
 }

@@ -25,14 +25,17 @@ import org.sopt.and.R
 fun EmailTextField(
     modifier: Modifier = Modifier,
     userEmail: MutableState<String>,
-    placeHolder: String
+    placeHolder: String,
+    onValueChange: (String) -> Unit = {}
 ) {
     val containerColor = Color(0xFF2F2F2F)
     OutlinedTextField(
-        modifier = modifier
-            .fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         value = userEmail.value,
-        onValueChange = { newValue -> userEmail.value = newValue },
+        onValueChange = { newValue ->
+            userEmail.value = newValue
+            onValueChange(newValue)
+        },
         placeholder = {
             Text(
                 text = placeHolder,
@@ -54,18 +57,23 @@ fun EmailTextField(
     )
 }
 
+
 @Composable
 fun PasswordTextField(
     modifier: Modifier = Modifier,
     userPassword: MutableState<String>, placeHolder: String,
-    passwordVisible: MutableState<Boolean>
+    passwordVisible: MutableState<Boolean>,
+    onValueChange: (String) -> Unit = {}
 ) {
     val containerColor = Color(0xFF2F2F2F)
     OutlinedTextField(
         modifier = modifier
             .fillMaxWidth(),
         value = userPassword.value,
-        onValueChange = { newValue -> userPassword.value = newValue },
+        onValueChange = { newValue ->
+            userPassword.value = newValue
+            onValueChange(newValue)
+        },
         placeholder = {
             Text(
                 text = placeHolder,

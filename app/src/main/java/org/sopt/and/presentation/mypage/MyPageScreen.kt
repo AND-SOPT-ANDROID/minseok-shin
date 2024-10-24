@@ -29,7 +29,10 @@ import org.sopt.and.presentation.mypage.component.MyPagePurchaseBox
 
 
 @Composable
-fun MyPageScreen(modifier: Modifier = Modifier, myPageViewModel: MyPageViewModel = viewModel()) {
+fun MyPageScreen(email: String = "", modifier: Modifier = Modifier) {
+    val myPageViewModel: MyPageViewModel = viewModel()
+
+    myPageViewModel.updateUserEmail(email = email)
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -51,7 +54,7 @@ fun MyPageScreen(modifier: Modifier = Modifier, myPageViewModel: MyPageViewModel
                     .size(60.dp)
             )
             Text(
-                text = myPageViewModel.user.value?.email ?: "",
+                text = myPageViewModel.getUerEmail(),
                 color = Color.White,
                 fontSize = 20.sp,
                 maxLines = 1,
