@@ -18,8 +18,9 @@ class SignInViewModel : ViewModel() {
     }
 
     fun signIn(email: String, password: String): Boolean {
-        if (
-            email == _user.value.email && password == _user.value.password) {
+        if (email.isNotEmpty() && password.isNotEmpty() &&
+            email == _user.value.email && password == _user.value.password
+        ) {
             _user.value = User(email, password)
             return true
         } else return false
