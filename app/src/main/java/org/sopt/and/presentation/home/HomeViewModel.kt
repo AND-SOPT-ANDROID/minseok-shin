@@ -1,18 +1,19 @@
 package org.sopt.and.presentation.home
 
 import androidx.lifecycle.ViewModel
+import kotlinx.collections.immutable.persistentListOf
 import org.sopt.and.R
 
 
 class HomeViewModel : ViewModel() {
-    val bannerImages = listOf(
+    val bannerImages = persistentListOf(
         R.drawable.img_home_banner1,
         R.drawable.img_home_banner2,
         R.drawable.img_home_banner3,
         R.drawable.img_home_banner4
     )
 
-    val recommendImages = listOf(
+    val recommendImages = persistentListOf(
         R.drawable.img_home_content1,
         R.drawable.img_home_content2,
         R.drawable.img_home_content3,
@@ -21,7 +22,7 @@ class HomeViewModel : ViewModel() {
         R.drawable.img_home_content6
     )
 
-    val top20Images = listOf(
+    val top20Images = persistentListOf(
         R.drawable.img_home_top20_1,
         R.drawable.img_home_top20_2,
         R.drawable.img_home_top20_3,

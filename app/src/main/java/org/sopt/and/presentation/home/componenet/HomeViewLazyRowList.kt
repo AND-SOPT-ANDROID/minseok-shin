@@ -25,10 +25,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import org.sopt.and.R
 
 @Composable
-fun HomeViewLazyRow(images: List<Int>, modifier: Modifier = Modifier) {
+fun HomeViewLazyRow(images: ImmutableList<Int>, modifier: Modifier = Modifier) {
     LazyRow(
         modifier = modifier.fillMaxWidth()
     ) {
@@ -46,7 +48,7 @@ fun HomeViewLazyRow(images: List<Int>, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun HomeViewTop20LazyRow(images: List<Int>, modifier: Modifier = Modifier) {
+fun HomeViewTop20LazyRow(images: ImmutableList<Int>, modifier: Modifier = Modifier) {
     LazyRow(
         modifier = modifier.fillMaxWidth()
     ) {
@@ -82,7 +84,7 @@ fun HomeViewTop20LazyRow(images: List<Int>, modifier: Modifier = Modifier) {
 @Preview
 @Composable
 private fun LazyRowPreview() {
-    val recommendImages = listOf(
+    val recommendImages = persistentListOf(
         R.drawable.img_home_content1,
         R.drawable.img_home_content2,
         R.drawable.img_home_content3,

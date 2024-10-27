@@ -23,10 +23,10 @@ import org.sopt.and.R
 
 @Composable
 fun EmailTextField(
-    modifier: Modifier = Modifier,
     userEmail: MutableState<String>,
     placeHolder: String,
-    onValueChange: (String) -> Unit = {}
+    onValueChange: (String) -> Unit = {},
+    modifier: Modifier = Modifier
 ) {
     val containerColor = Color(0xFF2F2F2F)
     OutlinedTextField(

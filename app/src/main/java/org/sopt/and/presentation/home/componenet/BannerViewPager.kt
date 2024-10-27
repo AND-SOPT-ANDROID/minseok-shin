@@ -14,11 +14,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.delay
 import org.sopt.and.R
 
 @Composable
-fun BannerViewPager(modifier: Modifier = Modifier, pagerState: PagerState, images: List<Int>) {
+fun BannerViewPager(
+    modifier: Modifier = Modifier,
+    pagerState: PagerState,
+    images: ImmutableList<Int>
+) {
     Box(modifier = modifier.fillMaxWidth()) {
         HorizontalPager(
             state = pagerState,
@@ -46,7 +52,7 @@ fun BannerViewPager(modifier: Modifier = Modifier, pagerState: PagerState, image
 @Preview
 @Composable
 private fun BannerPreview() {
-    val images = listOf(
+    val images = persistentListOf(
         R.drawable.img_home_banner1,
         R.drawable.img_home_banner2,
         R.drawable.img_home_banner3,
