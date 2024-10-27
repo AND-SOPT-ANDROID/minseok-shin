@@ -19,28 +19,27 @@ import org.sopt.and.R
 
 @Composable
 fun BannerViewPager(modifier: Modifier = Modifier, pagerState: PagerState, images: List<Int>) {
-    HorizontalPager(
-        state = pagerState,
-        modifier = Modifier
-            .fillMaxWidth()
-    ) { page ->
-        Box(
-            modifier = modifier
+    Box(modifier = modifier.fillMaxWidth()) {
+        HorizontalPager(
+            state = pagerState,
+            modifier = Modifier
                 .fillMaxWidth()
-                .height(450.dp)
-        ) {
+        ) { page ->
+
             Image(
                 painter = painterResource(id = images[page]),
                 contentDescription = null,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(450.dp),
                 alignment = Alignment.Center
             )
-            BannerIndexTag(
-                index = page,
-                size = images.size,
-                modifier = modifier.align(Alignment.BottomEnd)
-            )
         }
+        BannerIndexTag(
+            index = pagerState.currentPage,
+            size = images.size,
+            modifier = modifier.align(Alignment.BottomEnd)
+        )
     }
 }
 

@@ -3,6 +3,7 @@ package org.sopt.and.presentation.home
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -88,4 +90,9 @@ fun HomeScreen(
 @Composable
 fun HomeScreenPreview(modifier: Modifier = Modifier) {
     HomeScreen()
+
+    LazyRow(
+        contentPadding = PaddingValues(all = 16.dp)
+    ) {}
+
 }

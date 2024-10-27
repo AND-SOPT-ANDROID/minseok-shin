@@ -68,6 +68,4 @@ dependencies {
     implementation(libs.androidx.compose.navigation)
     implementation(libs.material3)
     implementation(libs.kotlinx.serialization.json)
-
-
 }
