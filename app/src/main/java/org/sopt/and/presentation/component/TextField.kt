@@ -1,11 +1,10 @@
-package org.sopt.and.component
+package org.sopt.and.presentation.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -24,16 +23,19 @@ import org.sopt.and.R
 
 @Composable
 fun EmailTextField(
-    modifier: Modifier = Modifier,
     userEmail: MutableState<String>,
-    placeHolder: String
+    placeHolder: String,
+    onValueChange: (String) -> Unit = {},
+    modifier: Modifier = Modifier
 ) {
     val containerColor = Color(0xFF2F2F2F)
     OutlinedTextField(
-        modifier = modifier
-            .fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         value = userEmail.value,
-        onValueChange = { newValue -> userEmail.value = newValue },
+        onValueChange = { newValue ->
+            userEmail.value = newValue
+            onValueChange(newValue)
+        },
         placeholder = {
             Text(
                 text = placeHolder,
@@ -55,18 +57,23 @@ fun EmailTextField(
     )
 }
 
+
 @Composable
 fun PasswordTextField(
     modifier: Modifier = Modifier,
     userPassword: MutableState<String>, placeHolder: String,
-    passwordVisible: MutableState<Boolean>
+    passwordVisible: MutableState<Boolean>,
+    onValueChange: (String) -> Unit = {}
 ) {
     val containerColor = Color(0xFF2F2F2F)
     OutlinedTextField(
         modifier = modifier
             .fillMaxWidth(),
         value = userPassword.value,
-        onValueChange = { newValue -> userPassword.value = newValue },
+        onValueChange = { newValue ->
+            userPassword.value = newValue
+            onValueChange(newValue)
+        },
         placeholder = {
             Text(
                 text = placeHolder,

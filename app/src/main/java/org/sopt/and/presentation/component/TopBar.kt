@@ -1,4 +1,4 @@
-package org.sopt.and.component
+package org.sopt.and.presentation.component
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Box
@@ -19,7 +19,7 @@ import org.sopt.and.R
 
 @Composable
 fun TopBar(
-    modifier: Modifier=Modifier,
+    modifier: Modifier = Modifier,
     text: String,
     @DrawableRes id: Int,
     alignment: Alignment
@@ -49,12 +49,11 @@ fun TopBar(
 }
 
 
-
 @Preview
 @Composable
 private fun TopBarPreview() {
     Column {
-        TopBar(text="회원가입", id=R.drawable.ic_top_bar_close, alignment = Alignment.CenterStart)
-        TopBar(text="회원가입", id=R.drawable.ic_top_bar_close, alignment = Alignment.CenterEnd)
+        TopBar(text = "회원가입", id = R.drawable.ic_top_bar_close, alignment = Alignment.CenterStart)
+        TopBar(text = "회원가입", id = R.drawable.ic_top_bar_close, alignment = Alignment.CenterEnd)
     }
 }
