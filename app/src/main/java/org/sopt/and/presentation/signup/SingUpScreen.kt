@@ -36,11 +36,11 @@ import org.sopt.and.util.showToast
 
 @Composable
 fun SignUpScreen(
+    signUpViewModel: SignUpViewModel = viewModel(),
     navigateToSignIn: (user: User) -> Unit = {},
     signInViewModel: SignInViewModel = viewModel(),
     modifier: Modifier = Modifier
 ) {
-    val signUpViewModel: SignUpViewModel = viewModel()
 
     val context = LocalContext.current
     val userEmail = remember { mutableStateOf("") }

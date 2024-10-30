@@ -35,9 +35,9 @@ import org.sopt.and.presentation.home.componenet.HomeViewTop20LazyRow
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
+    homeViewModel: HomeViewModel = viewModel(),
     modifier: Modifier = Modifier
 ) {
-    val homeViewModel = viewModel<HomeViewModel>()
 
     val pagerState =
         rememberPagerState(initialPage = 0, pageCount = { homeViewModel.bannerImages.size })

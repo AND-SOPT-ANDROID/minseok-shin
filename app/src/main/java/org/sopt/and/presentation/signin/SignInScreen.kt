@@ -39,13 +39,13 @@ import org.sopt.and.util.noRippleClickable
 
 @Composable
 fun SignInScreen(
+    signInViewModel: SignInViewModel = viewModel(),
     email: String = "",
     password: String = "",
     navigateToSignUp: () -> Unit = {},
     navigateToMyPage: (Any?) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
-    val signInViewModel: SignInViewModel = viewModel()
 
     val userEmail = remember { mutableStateOf("") }
     val userPassword = remember { mutableStateOf("") }

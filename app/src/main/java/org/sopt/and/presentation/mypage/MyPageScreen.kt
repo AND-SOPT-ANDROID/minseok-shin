@@ -29,8 +29,10 @@ import org.sopt.and.presentation.mypage.component.MyPagePurchaseBox
 
 
 @Composable
-fun MyPageScreen(email: String = "", modifier: Modifier = Modifier) {
-    val myPageViewModel: MyPageViewModel = viewModel()
+fun MyPageScreen(
+    myPageViewModel: MyPageViewModel = viewModel(),
+    email: String = "", modifier: Modifier = Modifier
+) {
 
     myPageViewModel.updateUserEmail(email = email)
     Column(
