@@ -7,6 +7,11 @@ object Regex {
     const val PASSWORD_REGEX = "!@#\$%^&*() _+\\-=\\[\\]{};':\"\\\\|,.<>\\/?"
 }
 
+object ImageRatio {
+    const val LARGE = 0.43f
+    const val SMALL = 0.29f
+}
+
 @Serializable
 sealed class Route {
     @Serializable
@@ -25,7 +30,7 @@ sealed class Route {
     data class MyPage(
         val email: String
     ) : Route()
-    
+
 
     @Serializable
     data object Search : Route()

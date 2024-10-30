@@ -27,6 +27,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+import org.sopt.and.ImageRatio.LARGE
+import org.sopt.and.ImageRatio.SMALL
 import org.sopt.and.R
 
 @Composable
@@ -39,7 +41,7 @@ fun HomeViewLazyRow(images: ImmutableList<Int>, modifier: Modifier = Modifier) {
                 painter = painterResource(id = imageRes),
                 contentDescription = null,
                 modifier = Modifier
-                    .width(LocalConfiguration.current.screenWidthDp.dp * 0.29f)
+                    .width(LocalConfiguration.current.screenWidthDp.dp * SMALL)
                     .padding(horizontal = 5.dp)
                     .clip(RoundedCornerShape(8.dp))
             )
@@ -59,7 +61,7 @@ fun HomeViewTop20LazyRow(images: ImmutableList<Int>, modifier: Modifier = Modifi
                         painter = painterResource(id = imageRes),
                         contentDescription = null,
                         modifier = Modifier
-                            .width(LocalConfiguration.current.screenWidthDp.dp * 0.43f)
+                            .width(LocalConfiguration.current.screenWidthDp.dp * LARGE)
                             .padding(horizontal = 5.dp)
                             .clip(RoundedCornerShape(8.dp))
                     )
