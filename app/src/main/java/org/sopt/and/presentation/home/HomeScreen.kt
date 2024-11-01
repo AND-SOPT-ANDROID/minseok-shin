@@ -76,10 +76,18 @@ fun HomeScreen(
         }
         item {
             BannerViewPager(pagerState = pagerState, images = homeViewModel.bannerImages)
+        }
+        item {
             Spacer(modifier = Modifier.height(20.dp))
+        }
+        item {
             HomeViewContentsTitle(text = stringResource(R.string.home_recommend_title))
             HomeViewLazyRow(images = homeViewModel.recommendImages)
+        }
+        item {
             Spacer(modifier = Modifier.height(20.dp))
+        }
+        item {
             HomeViewContentsTitle(text = stringResource(R.string.home_top20_title), hasIcon = false)
             HomeViewTop20LazyRow(images = homeViewModel.top20Images)
         }
