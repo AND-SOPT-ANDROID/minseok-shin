@@ -15,6 +15,9 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -41,8 +44,6 @@ import org.sopt.and.util.noRippleClickable
 fun SignInScreen(
     signInViewModel: SignInViewModel = viewModel(),
     modifier: Modifier = Modifier,
-    email: String = "",
-    password: String = "",
     navigateToSignUp: () -> Unit = {},
     navigateToMyPage: (Any?) -> Unit = {},
 ) {
@@ -54,8 +55,8 @@ fun SignInScreen(
 
     val snackBarHostState = remember { SnackbarHostState() }
     val coroutine = rememberCoroutineScope()
+    val loginResult by signInViewModel.isLoginSuccessful.collectAsState()
 
-    signInViewModel.updateUser(email = email, password = password)
 
     Column(
         modifier = modifier
@@ -76,11 +77,19 @@ fun SignInScreen(
             BaseTextField(
                 text = userEmail,
                 placeHolder = stringResource(id = R.string.sign_in_email_placeholder),
+                onValueChange = {
+                    userEmail.value = it
+                    signInViewModel.onEmailChanged(it)
+                }
             )
             Spacer(modifier = Modifier.height(10.dp))
             PasswordTextField(
                 userPassword = userPassword,
                 passwordVisible = passwordVisible,
+                onValueChange = {
+                    userPassword.value = it
+                    signInViewModel.onPasswordChanged(it)
+                },
                 placeHolder = stringResource(id = R.string.sign_in_password_placeholder),
             )
             Spacer(modifier = Modifier.height(30.dp))
@@ -93,13 +102,7 @@ fun SignInScreen(
                     .padding(vertical = 15.dp)
                     .noRippleClickable {
                         coroutine.launch {
-                            if (signInViewModel.signIn(userEmail.value, userPassword.value)) {
-                                snackBarHostState.showSnackbar(message = context.getString(R.string.sign_in_success))
-                                delay(300)
-                                navigateToMyPage(userEmail.value)
-                            } else {
-                                snackBarHostState.showSnackbar(message = context.getString(R.string.sign_in_failed))
-                            }
+                            signInViewModel.signIn()
                         }
                     },
                 textAlign = TextAlign.Center,
@@ -128,6 +131,17 @@ fun SignInScreen(
             )
             Spacer(modifier = Modifier.weight(1f))
             SnackbarHost(hostState = snackBarHostState)
+        }
+    }
+    LaunchedEffect(loginResult) {
+        loginResult?.let {
+            if (it) {
+                snackBarHostState.showSnackbar(message = context.getString(R.string.sign_in_success))
+                delay(300)
+                navigateToMyPage(userEmail.value)
+            } else {
+                snackBarHostState.showSnackbar(message = context.getString(R.string.sign_in_failed))
+            }
         }
     }
 }

@@ -31,8 +31,6 @@ fun NavGraph(
         composable<Route.SignIn> { backStackEntry ->
             val item = backStackEntry.toRoute<Route.SignIn>()
             SignInScreen(
-                email = item.email,
-                password = item.password,
                 navigateToMyPage = { email ->
                     navController.navigate(Route.MyPage(email.toString())) {
                         popUpTo<Route.SignIn> {

@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.serialization.json.Json
 import org.sopt.and.data.model.request.RequestSignUpDto
-import org.sopt.and.data.model.response.ResponseSignUpFailedDto
+import org.sopt.and.data.model.response.ResponseFailedDto
 import org.sopt.and.data.service.RetrofitInstance
 import org.sopt.and.domain.User
 
@@ -55,7 +55,7 @@ class SignUpViewModel : ViewModel() {
             } else {
                 val errorBody = response.errorBody()?.string()
                 val errorCode = if (errorBody != null) {
-                    val errorData = Json.decodeFromString<ResponseSignUpFailedDto>(errorBody)
+                    val errorData = Json.decodeFromString<ResponseFailedDto>(errorBody)
                     errorData.code
                 } else {
                     "Unknown error code"
@@ -64,6 +64,7 @@ class SignUpViewModel : ViewModel() {
                     Result.failure(Exception("Status code: ${response.code()} and error code: $errorCode"))
             }
         } catch (e: Exception) {
+            Log.e("ㅋㅋ", "Exception 이지롱: ${e.message}")
             _signUpResult.value = Result.failure(e)
         }
     }
