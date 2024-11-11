@@ -6,12 +6,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import org.sopt.and.Route
 import org.sopt.and.presentation.home.HomeScreen
 import org.sopt.and.presentation.mypage.MyPageScreen
 import org.sopt.and.presentation.search.SearchScreen
 import org.sopt.and.presentation.signin.SignInScreen
 import org.sopt.and.presentation.signup.SignUpScreen
+import org.sopt.and.util.Route
 
 @Composable
 fun NavGraph(

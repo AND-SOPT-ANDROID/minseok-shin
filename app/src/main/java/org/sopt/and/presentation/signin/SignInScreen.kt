@@ -32,7 +32,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.sopt.and.R
-import org.sopt.and.presentation.component.EmailTextField
+import org.sopt.and.presentation.component.BaseTextField
 import org.sopt.and.presentation.component.PasswordTextField
 import org.sopt.and.presentation.component.TopBar
 import org.sopt.and.util.noRippleClickable
@@ -73,8 +73,8 @@ fun SignInScreen(
                 .fillMaxWidth()
                 .padding(horizontal = 11.dp)
         ) {
-            EmailTextField(
-                userEmail = userEmail,
+            BaseTextField(
+                text = userEmail,
                 placeHolder = stringResource(id = R.string.sign_in_email_placeholder),
             )
             Spacer(modifier = Modifier.height(10.dp))
@@ -120,6 +120,7 @@ fun SignInScreen(
                         navigateToSignUp()
                     })
             }
+            Spacer(modifier = modifier.height(40.dp))
             Image(
                 painter = painterResource(id = R.drawable.img_sign_up_image),
                 contentDescription = "로그인 이미지",

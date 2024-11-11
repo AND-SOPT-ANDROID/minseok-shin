@@ -27,9 +27,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import org.sopt.and.ImageRatio.LARGE
-import org.sopt.and.ImageRatio.SMALL
 import org.sopt.and.R
+import org.sopt.and.util.ImageRatio.LARGE
+import org.sopt.and.util.ImageRatio.SMALL
 
 @Composable
 fun HomeViewLazyRow(images: ImmutableList<Int>, modifier: Modifier = Modifier) {
