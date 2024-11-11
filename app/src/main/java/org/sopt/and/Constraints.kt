@@ -31,7 +31,6 @@ sealed class Route {
         val email: String
     ) : Route()
 
-
     @Serializable
     data object Search : Route()
 }

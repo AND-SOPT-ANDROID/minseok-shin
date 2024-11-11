@@ -12,11 +12,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import kotlinx.collections.immutable.persistentListOf
 import org.sopt.and.R
 
 @Composable
 fun CategoryBar(modifier: Modifier = Modifier) {
-    val categories = listOf(
+    val categories = persistentListOf(
         R.string.home_category_classic,
         R.string.home_category_drama,
         R.string.home_category_variety,
