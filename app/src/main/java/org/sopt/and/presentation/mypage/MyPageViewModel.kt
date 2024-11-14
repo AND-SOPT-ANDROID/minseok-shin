@@ -35,8 +35,8 @@ class MyPageViewModel(
         return try {
             val response = userService.getUserHobby(userInfoLocalDataSource.accessToken)
             if (response.isSuccessful) {
-                Log.d("ㅋㅋ", "Status code: ${response.code()},Error code: ${response.body()?.code}")
-                response.body()?.result?.hobby ?: "에러났지렁이"
+                Log.d("ㅋㅋ", "Status code: ${response.code()}")
+                response.body()?.result?.hobby ?: "내 취미 내놔!!"
             } else {
                 Log.e("ㅋㅋ", "Status code: ${response.code()}, Error code: ${response.body()?.code}")
                 "에러났지렁이"
