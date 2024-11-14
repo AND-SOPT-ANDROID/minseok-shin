@@ -6,12 +6,15 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.serialization.json.Json
+import org.sopt.and.data.datalocal.datasource.UserInfoLocalDataSource
 import org.sopt.and.data.model.request.RequestLoginDto
 import org.sopt.and.data.model.response.ResponseFailedDto
 import org.sopt.and.data.service.RetrofitInstance.userService
 import org.sopt.and.domain.User
 
-class SignInViewModel : ViewModel() {
+class SignInViewModel(
+    private val userInfoLocalDataSource: UserInfoLocalDataSource
+) : ViewModel() {
     private val _user = MutableStateFlow(User())
     val user: StateFlow<User> = _user
 
@@ -35,9 +38,16 @@ class SignInViewModel : ViewModel() {
 
         try {
             val response = userService.postLogin(requestDto)
-            if (response.isSuccessful) {
+            val token = response.body()?.result?.token
+
+            if (response.isSuccessful && token != null) {
+                userInfoLocalDataSource.accessToken = token
+                userInfoLocalDataSource.nickname = _user.value.email
                 _isLoginSuccessful.value = true
-                Log.d("ㅋㅋ", "Status code: ${response.code()}")
+                Log.d(
+                    "ㅋㅋ",
+                    "Status code: ${response.code()} token: $token"
+                )
             } else {
                 val errorBody = response.errorBody()?.string()
                 val errorCode = if (errorBody != null) {

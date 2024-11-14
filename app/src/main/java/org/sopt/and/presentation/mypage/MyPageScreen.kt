@@ -31,10 +31,9 @@ import org.sopt.and.presentation.mypage.component.MyPagePurchaseBox
 @Composable
 fun MyPageScreen(
     myPageViewModel: MyPageViewModel = viewModel(),
-    email: String = "", modifier: Modifier = Modifier
+    modifier: Modifier = Modifier
 ) {
 
-    myPageViewModel.updateUserEmail(email = email)
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -57,6 +56,15 @@ fun MyPageScreen(
             )
             Text(
                 text = myPageViewModel.getUerEmail(),
+                color = Color.White,
+                fontSize = 20.sp,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = modifier.weight(1f)
+            )
+
+            Text(
+                text = myPageViewModel.getUerHobby(),
                 color = Color.White,
                 fontSize = 20.sp,
                 maxLines = 1,

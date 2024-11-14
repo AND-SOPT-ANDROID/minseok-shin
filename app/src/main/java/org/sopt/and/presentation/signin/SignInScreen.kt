@@ -28,10 +28,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.sopt.and.R
@@ -42,7 +40,7 @@ import org.sopt.and.util.noRippleClickable
 
 @Composable
 fun SignInScreen(
-    signInViewModel: SignInViewModel = viewModel(),
+    signInViewModel: SignInViewModel,
     modifier: Modifier = Modifier,
     navigateToSignUp: () -> Unit = {},
     navigateToMyPage: (Any?) -> Unit = {},
@@ -146,8 +144,8 @@ fun SignInScreen(
     }
 }
 
-@Preview
-@Composable
-fun SignInScreenPreview() {
-    SignInScreen()
-}
+//@Preview
+//@Composable
+//fun SignInScreenPreview() {
+//    SignInScreen()
+//}
