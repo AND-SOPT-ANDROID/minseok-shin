@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,6 +36,8 @@ fun MyPageScreen(
     modifier: Modifier = Modifier
 ) {
 
+    val user by myPageViewModel.user.collectAsState()
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -55,19 +59,10 @@ fun MyPageScreen(
                     .size(60.dp)
             )
             Text(
-                text = myPageViewModel.getUerEmail(),
+                text = "${user.email}\n취미: ${user.hobby}",
                 color = Color.White,
                 fontSize = 20.sp,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = modifier.weight(1f)
-            )
-
-            Text(
-                text = myPageViewModel.getUerHobby(),
-                color = Color.White,
-                fontSize = 20.sp,
-                maxLines = 1,
+                maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
                 modifier = modifier.weight(1f)
             )
