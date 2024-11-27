@@ -1,6 +1,8 @@
 package org.sopt.and.presentation.signin
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,8 +20,9 @@ class SignInViewModel(
     private val _user = MutableStateFlow(User())
     val user: StateFlow<User> = _user
 
-    private val _isLoginSuccessful = MutableStateFlow<Boolean?>(null)
-    val isLoginSuccessful = _isLoginSuccessful.asStateFlow()
+    private val _isLoginSuccessful = MutableLiveData<Boolean?>()
+    val isLoginSuccessful: LiveData<Boolean?> = _isLoginSuccessful
+
 
     fun onEmailChanged(email: String) {
         _user.value = _user.value.copy(email = email)
