@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import org.sopt.and.Route
+import org.sopt.and.util.Route
 
 @Composable
 fun BottomNavigationBar(
@@ -34,7 +34,7 @@ fun BottomNavigationBar(
     modifier: Modifier = Modifier
 ) {
     val backStackEntry = navController.currentBackStackEntryAsState()
-    Column (modifier = modifier.background(color = Color(0xFF1B1B1B))){
+    Column(modifier = modifier.background(color = Color(0xFF1B1B1B))) {
         Text(
             text = "첫 결제 시 첫 달 100원!",
             textAlign = TextAlign.Center,

@@ -15,47 +15,54 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.sopt.and.R
-import org.sopt.and.presentation.component.EmailTextField
+import org.sopt.and.presentation.component.BaseTextField
 import org.sopt.and.presentation.component.PasswordTextField
 import org.sopt.and.presentation.component.TopBar
 import org.sopt.and.util.noRippleClickable
 
 @Composable
 fun SignInScreen(
-    signInViewModel: SignInViewModel = viewModel(),
+    signInViewModel: SignInViewModel,
     modifier: Modifier = Modifier,
-    email: String = "",
-    password: String = "",
     navigateToSignUp: () -> Unit = {},
-    navigateToMyPage: (Any?) -> Unit = {},
+    navigateToMyPage: (String) -> Unit = {},
 ) {
-
     val userEmail = remember { mutableStateOf("") }
     val userPassword = remember { mutableStateOf("") }
     val passwordVisible = remember { mutableStateOf(false) }
-    val context = LocalContext.current
 
     val snackBarHostState = remember { SnackbarHostState() }
     val coroutine = rememberCoroutineScope()
 
-    signInViewModel.updateUser(email = email, password = password)
+    LaunchedEffect(Unit) {
+        signInViewModel.uiEvent.collect { event ->
+            when (event) {
+                is SignInViewModel.SignInEvent.ShowSnackBar -> {
+                    snackBarHostState.showSnackbar(event.message)
+                }
+
+                is SignInViewModel.SignInEvent.NavigateToMyPage -> {
+                    navigateToMyPage(event.email)
+                }
+            }
+        }
+    }
+
+
 
     Column(
         modifier = modifier
@@ -73,14 +80,22 @@ fun SignInScreen(
                 .fillMaxWidth()
                 .padding(horizontal = 11.dp)
         ) {
-            EmailTextField(
-                userEmail = userEmail,
+            BaseTextField(
+                text = userEmail,
                 placeHolder = stringResource(id = R.string.sign_in_email_placeholder),
+                onValueChange = {
+                    userEmail.value = it
+                    signInViewModel.onEmailChanged(it)
+                }
             )
             Spacer(modifier = Modifier.height(10.dp))
             PasswordTextField(
                 userPassword = userPassword,
                 passwordVisible = passwordVisible,
+                onValueChange = {
+                    userPassword.value = it
+                    signInViewModel.onPasswordChanged(it)
+                },
                 placeHolder = stringResource(id = R.string.sign_in_password_placeholder),
             )
             Spacer(modifier = Modifier.height(30.dp))
@@ -93,13 +108,7 @@ fun SignInScreen(
                     .padding(vertical = 15.dp)
                     .noRippleClickable {
                         coroutine.launch {
-                            if (signInViewModel.signIn(userEmail.value, userPassword.value)) {
-                                snackBarHostState.showSnackbar(message = context.getString(R.string.sign_in_success))
-                                delay(300)
-                                navigateToMyPage(userEmail.value)
-                            } else {
-                                snackBarHostState.showSnackbar(message = context.getString(R.string.sign_in_failed))
-                            }
+                            signInViewModel.signIn()
                         }
                     },
                 textAlign = TextAlign.Center,
@@ -120,6 +129,7 @@ fun SignInScreen(
                         navigateToSignUp()
                     })
             }
+            Spacer(modifier = modifier.height(40.dp))
             Image(
                 painter = painterResource(id = R.drawable.img_sign_up_image),
                 contentDescription = "로그인 이미지",
@@ -129,10 +139,11 @@ fun SignInScreen(
             SnackbarHost(hostState = snackBarHostState)
         }
     }
+
 }
 
-@Preview
-@Composable
-fun SignInScreenPreview() {
-    SignInScreen()
-}
+//@Preview
+//@Composable
+//fun SignInScreenPreview() {
+//    SignInScreen()
+//}

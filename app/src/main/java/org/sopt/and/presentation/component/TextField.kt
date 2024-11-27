@@ -22,8 +22,8 @@ import androidx.compose.ui.unit.dp
 import org.sopt.and.R
 
 @Composable
-fun EmailTextField(
-    userEmail: MutableState<String>,
+fun BaseTextField(
+    text: MutableState<String>,
     placeHolder: String,
     onValueChange: (String) -> Unit = {},
     modifier: Modifier = Modifier
@@ -31,9 +31,9 @@ fun EmailTextField(
     val containerColor = Color(0xFF2F2F2F)
     OutlinedTextField(
         modifier = modifier.fillMaxWidth(),
-        value = userEmail.value,
+        value = text.value,
         onValueChange = { newValue ->
-            userEmail.value = newValue
+            text.value = newValue
             onValueChange(newValue)
         },
         placeholder = {
@@ -112,17 +112,23 @@ fun PasswordTextField(
 private fun TextFieldPreview() {
     val userEmail = remember { mutableStateOf("") }
     val userPassword = remember { mutableStateOf("") }
+    val userHobby = remember { mutableStateOf("") }
     val passwordVisible = remember { mutableStateOf(false) }
 
     Column {
-        EmailTextField(
-            userEmail = userEmail,
+        BaseTextField(
+            text = userEmail,
             placeHolder = stringResource(id = R.string.sign_up_email_placeholder)
         )
+
         PasswordTextField(
             userPassword = userPassword,
             passwordVisible = passwordVisible,
             placeHolder = stringResource(id = R.string.sign_up_password_placeholder)
+        )
+        BaseTextField(
+            text = userHobby,
+            placeHolder = stringResource(id = R.string.sign_up_hobby_placeholder)
         )
     }
 }
