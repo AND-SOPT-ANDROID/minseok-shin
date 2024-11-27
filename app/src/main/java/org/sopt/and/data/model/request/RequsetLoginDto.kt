@@ -10,5 +10,3 @@ data class RequestLoginDto(
     @SerialName("password")
     val password: String
 )
-
-
