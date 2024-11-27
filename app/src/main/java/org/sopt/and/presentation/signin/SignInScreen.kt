@@ -16,21 +16,17 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.sopt.and.R
 import org.sopt.and.presentation.component.BaseTextField
@@ -43,18 +39,29 @@ fun SignInScreen(
     signInViewModel: SignInViewModel,
     modifier: Modifier = Modifier,
     navigateToSignUp: () -> Unit = {},
-    navigateToMyPage: (Any?) -> Unit = {},
+    navigateToMyPage: (String) -> Unit = {},
 ) {
-
     val userEmail = remember { mutableStateOf("") }
     val userPassword = remember { mutableStateOf("") }
     val passwordVisible = remember { mutableStateOf(false) }
-    val context = LocalContext.current
 
     val snackBarHostState = remember { SnackbarHostState() }
     val coroutine = rememberCoroutineScope()
 
-    val loginResult by signInViewModel.isLoginSuccessful.observeAsState()
+    LaunchedEffect(Unit) {
+        signInViewModel.uiEvent.collect { event ->
+            when (event) {
+                is SignInViewModel.SignInEvent.ShowSnackBar -> {
+                    snackBarHostState.showSnackbar(event.message)
+                }
+
+                is SignInViewModel.SignInEvent.NavigateToMyPage -> {
+                    navigateToMyPage(event.email)
+                }
+            }
+        }
+    }
+
 
 
     Column(
@@ -132,17 +139,7 @@ fun SignInScreen(
             SnackbarHost(hostState = snackBarHostState)
         }
     }
-    LaunchedEffect(loginResult) {
-        loginResult?.let {
-            if (it) {
-                snackBarHostState.showSnackbar(message = context.getString(R.string.sign_in_success))
-                delay(300)
-                navigateToMyPage(userEmail.value)
-            } else {
-                snackBarHostState.showSnackbar(message = context.getString(R.string.sign_in_failed))
-            }
-        }
-    }
+
 }
 
 //@Preview

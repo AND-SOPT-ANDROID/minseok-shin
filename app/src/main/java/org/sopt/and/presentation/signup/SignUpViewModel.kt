@@ -2,23 +2,30 @@ package org.sopt.and.presentation.signup
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.serialization.json.Json
 import org.sopt.and.data.model.request.RequestSignUpDto
 import org.sopt.and.data.model.response.ResponseFailedDto
 import org.sopt.and.data.service.RetrofitInstance
 import org.sopt.and.domain.User
+import retrofit2.HttpException
+import java.io.IOException
 
 
 class SignUpViewModel : ViewModel() {
     private val userService = RetrofitInstance.userService
+
     private val _user = MutableStateFlow(User())
     val user: StateFlow<User> = _user
+
     private val _buttonClickable = MutableStateFlow(false)
     val buttonClickable: StateFlow<Boolean> = _buttonClickable
-    private val _signUpResult = MutableStateFlow<Result<Unit>?>(null)
-    val signUpResult: StateFlow<Result<Unit>?> = _signUpResult
+
+    private val _signUpEvent = MutableSharedFlow<Result<Unit>>()
+    val signUpEvent: SharedFlow<Result<Unit>> = _signUpEvent
 
     fun onEmailChanged(email: String) {
         _user.value = _user.value.copy(email = email)
@@ -37,7 +44,7 @@ class SignUpViewModel : ViewModel() {
 
     private fun validateButtonState(email: String, password: String, hobby: String) {
         _buttonClickable.value =
-            isValidEmail(email) && isValidPassword(password) && isValidateHobby(hobby)
+            isValidEmail(email) && isValidPassword(password) && isValidHobby(hobby)
     }
 
     suspend fun signUp() {
@@ -50,7 +57,7 @@ class SignUpViewModel : ViewModel() {
         try {
             val response = userService.postSignup(requestDto)
             if (response.isSuccessful) {
-                _signUpResult.value = Result.success(Unit)
+                _signUpEvent.emit(Result.success(Unit))
                 Log.d("ㅋㅋ", "Status code: ${response.code()}")
             } else {
                 val errorBody = response.errorBody()?.string()
@@ -60,25 +67,37 @@ class SignUpViewModel : ViewModel() {
                 } else {
                     "Unknown error code"
                 }
-                _signUpResult.value =
-                    Result.failure(Exception("Status code: ${response.code()} and error code: $errorCode"))
+                _signUpEvent.emit(
+                    Result.failure(Exception("회원가입 실패: Status code ${response.code()}, Error code: $errorCode"))
+                )
             }
+        } catch (e: IOException) {
+            Log.e("SignUpViewModel", "네트워크 오류: ${e.message}")
+            _signUpEvent.emit(Result.failure(Exception("네트워크 오류: ${e.message}")))
+        } catch (e: HttpException) {
+            Log.e("SignUpViewModel", "서버 오류: ${e.message}")
+            _signUpEvent.emit(Result.failure(Exception("서버 오류: ${e.message}")))
         } catch (e: Exception) {
-            Log.e("ㅋㅋ", "Exception 이지롱: ${e.message}")
-            _signUpResult.value = Result.failure(e)
+            Log.e("SignUpViewModel", "알 수 없는 오류: ${e.message}")
+            _signUpEvent.emit(Result.failure(Exception("알 수 없는 오류: ${e.message}")))
         }
     }
 
+    companion object {
+        private const val MIN_LENGTH = 1
+        private const val MAX_LENGTH = 8
+    }
+
     private fun isValidEmail(email: String): Boolean {
-        return email.length in 1..8
+        return email.length in MIN_LENGTH..MAX_LENGTH
     }
 
     private fun isValidPassword(password: String): Boolean {
-        return password.length in 1..8
+        return password.length in MIN_LENGTH..MAX_LENGTH
     }
 
-    private fun isValidateHobby(hobby: String): Boolean {
-        return hobby.length in 1..8
+    private fun isValidHobby(hobby: String): Boolean {
+        return hobby.length in MIN_LENGTH..MAX_LENGTH
     }
 }
 
