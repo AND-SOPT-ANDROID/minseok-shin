@@ -5,8 +5,9 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.dagger.hilt)
+    id("org.jetbrains.kotlin.kapt")
 }
-
 val properties = Properties().apply {
     load(project.rootProject.file("local.properties").inputStream())
 }
@@ -90,4 +91,7 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.coil.compose)
 
+    // Hilt
+    implementation(libs.bundles.hilt)
+    kapt(libs.hilt.compiler)
 }

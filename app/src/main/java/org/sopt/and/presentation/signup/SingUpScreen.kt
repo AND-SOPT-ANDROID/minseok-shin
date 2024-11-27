@@ -30,12 +30,12 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import org.sopt.and.R
-import org.sopt.and.domain.User
+import org.sopt.and.domain.model.User
 import org.sopt.and.presentation.component.BaseTextField
 import org.sopt.and.presentation.component.PasswordTextField
 import org.sopt.and.presentation.component.TopBar
-import org.sopt.and.util.noRippleClickable
-import org.sopt.and.util.showToast
+import org.sopt.and.presentation.util.noRippleClickable
+import org.sopt.and.presentation.util.showToast
 
 @Composable
 fun SignUpScreen(

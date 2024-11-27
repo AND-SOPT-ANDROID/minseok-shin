@@ -7,8 +7,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import org.sopt.and.data.datalocal.datasource.UserInfoLocalDataSource
-import org.sopt.and.data.service.RetrofitInstance.userService
-import org.sopt.and.domain.User
+import org.sopt.and.data.dataremote.service.RetrofitInstance.userService
+import org.sopt.and.domain.model.User
 
 class MyPageViewModel(
     private val userInfoLocalDataSource: UserInfoLocalDataSource

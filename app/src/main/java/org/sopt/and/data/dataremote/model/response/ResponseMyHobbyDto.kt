@@ -1,4 +1,4 @@
-package org.sopt.and.data.model.response
+package org.sopt.and.data.dataremote.model.response
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -6,9 +6,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ResponseMyHobbyDto(
     @SerialName("result")
-    val result: Result? = null,
+    val result: Result,
     @SerialName("code")
-    val code: String? = null
+    val code: String
 )
 
 @Serializable

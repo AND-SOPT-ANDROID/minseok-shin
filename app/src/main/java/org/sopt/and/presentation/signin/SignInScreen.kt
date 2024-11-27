@@ -32,7 +32,7 @@ import org.sopt.and.R
 import org.sopt.and.presentation.component.BaseTextField
 import org.sopt.and.presentation.component.PasswordTextField
 import org.sopt.and.presentation.component.TopBar
-import org.sopt.and.util.noRippleClickable
+import org.sopt.and.presentation.util.noRippleClickable
 
 @Composable
 fun SignInScreen(

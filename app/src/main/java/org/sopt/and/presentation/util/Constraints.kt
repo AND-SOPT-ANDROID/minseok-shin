@@ -1,4 +1,4 @@
-package org.sopt.and.util
+package org.sopt.and.presentation.util
 
 import kotlinx.serialization.Serializable
 
