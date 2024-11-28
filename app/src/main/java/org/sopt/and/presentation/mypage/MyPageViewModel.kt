@@ -3,15 +3,21 @@ package org.sopt.and.presentation.mypage
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import org.sopt.and.data.datalocal.datasource.UserInfoLocalDataSource
-import org.sopt.and.data.service.RetrofitInstance.userService
-import org.sopt.and.domain.User
+import org.sopt.and.data.datalocal.datasource.UserLocalDataSource
+import org.sopt.and.domain.model.User
+import org.sopt.and.domain.usecase.GetAccessTokenUseCase
+import org.sopt.and.domain.usecase.GetMyHobbyUseCase
+import javax.inject.Inject
 
-class MyPageViewModel(
-    private val userInfoLocalDataSource: UserInfoLocalDataSource
+@HiltViewModel
+class MyPageViewModel @Inject constructor(
+    private val userInfoLocalDataSource: UserLocalDataSource,
+    private val getAccessTokenUseCase: GetAccessTokenUseCase,
+    private val getMyHobbyUseCase: GetMyHobbyUseCase
 ) : ViewModel() {
     private val _user = MutableStateFlow(User())
     val user: StateFlow<User> = _user
@@ -33,7 +39,7 @@ class MyPageViewModel(
 
     private suspend fun loadUserHobby(): String {
         return try {
-            val response = userService.getUserHobby(userInfoLocalDataSource.accessToken)
+            val response = getMyHobbyUseCase(getAccessTokenUseCase())
             if (response.isSuccessful) {
                 Log.d("ㅋㅋ", "Status code: ${response.code()}")
                 response.body()?.result?.hobby ?: "내 취미 내놔!!"

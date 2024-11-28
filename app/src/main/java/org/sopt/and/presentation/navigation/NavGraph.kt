@@ -1,6 +1,5 @@
 package org.sopt.and.presentation.navigation
 
-import UserInfoLocalDataSourceImpl
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -9,12 +8,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import org.sopt.and.presentation.home.HomeScreen
 import org.sopt.and.presentation.mypage.MyPageScreen
-import org.sopt.and.presentation.mypage.MyPageViewModel
 import org.sopt.and.presentation.search.SearchScreen
 import org.sopt.and.presentation.signin.SignInScreen
-import org.sopt.and.presentation.signin.SignInViewModel
 import org.sopt.and.presentation.signup.SignUpScreen
-import org.sopt.and.util.Route
+import org.sopt.and.presentation.util.Route
 
 @Composable
 fun NavGraph(
@@ -23,7 +20,6 @@ fun NavGraph(
     modifier: Modifier = Modifier
 ) {
     val context = navController.context
-    val userInfoLocalDataSource = UserInfoLocalDataSourceImpl(context)
     NavHost(
         navController = navController,
         startDestination = Route.SignIn(email = "", password = ""),
@@ -36,7 +32,6 @@ fun NavGraph(
         composable<Route.SignIn> { backStackEntry ->
             val item = backStackEntry.toRoute<Route.SignIn>()
             SignInScreen(
-                signInViewModel = SignInViewModel(userInfoLocalDataSource = userInfoLocalDataSource),
                 navigateToMyPage = { email ->
                     navController.navigate(Route.MyPage(email.toString())) {
                         popUpTo<Route.SignIn> {
@@ -68,9 +63,7 @@ fun NavGraph(
 
         composable<Route.MyPage> { backStackEntry ->
             val item = backStackEntry.toRoute<Route.MyPage>()
-            MyPageScreen(
-                myPageViewModel = MyPageViewModel(userInfoLocalDataSource)
-            )
+            MyPageScreen()
         }
 
     }

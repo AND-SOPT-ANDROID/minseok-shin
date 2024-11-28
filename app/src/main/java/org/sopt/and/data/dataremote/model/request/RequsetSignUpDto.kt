@@ -1,4 +1,4 @@
-package org.sopt.and.data.model.request
+package org.sopt.and.data.dataremote.model.request
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

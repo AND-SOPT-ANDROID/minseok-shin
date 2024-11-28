@@ -4,21 +4,27 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.serialization.json.Json
-import org.sopt.and.data.datalocal.datasource.UserInfoLocalDataSource
-import org.sopt.and.data.model.request.RequestLoginDto
-import org.sopt.and.data.model.response.ResponseFailedDto
-import org.sopt.and.data.service.RetrofitInstance.userService
-import org.sopt.and.domain.User
+import org.sopt.and.data.dataremote.model.request.RequestLoginDto
+import org.sopt.and.data.dataremote.model.response.ResponseFailedDto
+import org.sopt.and.domain.model.User
+import org.sopt.and.domain.usecase.PostLoginUseCase
+import org.sopt.and.domain.usecase.SaveAccessTokenUseCase
+import org.sopt.and.domain.usecase.SaveNicknameUseCase
 import retrofit2.HttpException
 import java.io.IOException
+import javax.inject.Inject
 
-class SignInViewModel(
-    private val userInfoLocalDataSource: UserInfoLocalDataSource
+@HiltViewModel
+class SignInViewModel @Inject constructor(
+    private val postLoginUseCase: PostLoginUseCase,
+    private val saveAccessTokenUseCase: SaveAccessTokenUseCase,
+    private val saveNicknameUseCase: SaveNicknameUseCase
 ) : ViewModel() {
     private val _user = MutableStateFlow(User())
     val user: StateFlow<User> = _user
@@ -46,12 +52,12 @@ class SignInViewModel(
         )
 
         try {
-            val response = userService.postLogin(requestDto)
+            val response = postLoginUseCase(requestDto)
             val token = response.body()?.result?.token
 
             if (response.isSuccessful && token != null) {
-                userInfoLocalDataSource.accessToken = token
-                userInfoLocalDataSource.nickname = _user.value.email
+                saveAccessTokenUseCase(token)
+                saveNicknameUseCase(_user.value.email)
                 _isLoginSuccessful.value = true
                 Log.d(
                     "ㅋㅋ",
