@@ -13,12 +13,12 @@ import retrofit2.http.POST
 
 
 interface UserService {
-    @POST("/signup")
+    @POST("/user")
     suspend fun postSignup(@Body requestSignUpDto: RequestSignUpDto): Response<ResponseSignUpDto>
 
     @POST("/login")
     suspend fun postLogin(@Body requestLoginDto: RequestLoginDto): Response<ResponseLoginDto>
 
-    @GET("/hobby")
-    suspend fun getUserHobby(@Header("Authorization") token: String): Response<ResponseMyHobbyDto>
+    @GET("/user/my-hobby")
+    suspend fun getUserHobby(@Header("token") token: String): Response<ResponseMyHobbyDto>
 }

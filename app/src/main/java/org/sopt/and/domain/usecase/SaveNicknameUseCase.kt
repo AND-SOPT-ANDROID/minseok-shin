@@ -8,7 +8,7 @@ import javax.inject.Singleton
 class SaveNicknameUseCase @Inject constructor(
     private val userRepository: UserRepository
 ) {
-    operator fun invoke(token: String) {
-        userRepository.saveAccessToken(token)
+    operator fun invoke(nickname: String) {
+        userRepository.saveNickname(nickname = nickname)
     }
 }

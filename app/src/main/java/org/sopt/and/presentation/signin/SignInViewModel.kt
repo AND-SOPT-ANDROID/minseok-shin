@@ -13,6 +13,7 @@ import kotlinx.serialization.json.Json
 import org.sopt.and.data.dataremote.model.request.RequestLoginDto
 import org.sopt.and.data.dataremote.model.response.ResponseFailedDto
 import org.sopt.and.domain.model.User
+import org.sopt.and.domain.usecase.GetAccessTokenUseCase
 import org.sopt.and.domain.usecase.PostLoginUseCase
 import org.sopt.and.domain.usecase.SaveAccessTokenUseCase
 import org.sopt.and.domain.usecase.SaveNicknameUseCase
@@ -24,6 +25,7 @@ import javax.inject.Inject
 class SignInViewModel @Inject constructor(
     private val postLoginUseCase: PostLoginUseCase,
     private val saveAccessTokenUseCase: SaveAccessTokenUseCase,
+    private val getAccessTokenUseCase: GetAccessTokenUseCase,
     private val saveNicknameUseCase: SaveNicknameUseCase
 ) : ViewModel() {
     private val _user = MutableStateFlow(User())
@@ -57,6 +59,7 @@ class SignInViewModel @Inject constructor(
 
             if (response.isSuccessful && token != null) {
                 saveAccessTokenUseCase(token)
+                Log.d("ㅋㅋ", getAccessTokenUseCase())
                 saveNicknameUseCase(_user.value.email)
                 _isLoginSuccessful.value = true
                 Log.d(

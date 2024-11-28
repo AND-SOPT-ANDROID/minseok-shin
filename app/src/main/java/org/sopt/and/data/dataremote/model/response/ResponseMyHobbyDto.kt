@@ -6,9 +6,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ResponseMyHobbyDto(
     @SerialName("result")
-    val result: Result,
+    val result: Result? = null,
     @SerialName("code")
-    val code: String
+    val code: String? = null
 )
 
 @Serializable

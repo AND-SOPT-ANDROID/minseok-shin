@@ -9,12 +9,14 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import org.sopt.and.data.datalocal.datasource.UserLocalDataSource
 import org.sopt.and.domain.model.User
+import org.sopt.and.domain.usecase.GetAccessTokenUseCase
 import org.sopt.and.domain.usecase.GetMyHobbyUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class MyPageViewModel @Inject constructor(
     private val userInfoLocalDataSource: UserLocalDataSource,
+    private val getAccessTokenUseCase: GetAccessTokenUseCase,
     private val getMyHobbyUseCase: GetMyHobbyUseCase
 ) : ViewModel() {
     private val _user = MutableStateFlow(User())
@@ -37,7 +39,8 @@ class MyPageViewModel @Inject constructor(
 
     private suspend fun loadUserHobby(): String {
         return try {
-            val response = getMyHobbyUseCase(userInfoLocalDataSource.accessToken)
+            Log.d("ㅋㅋ", getAccessTokenUseCase())
+            val response = getMyHobbyUseCase(getAccessTokenUseCase())
             if (response.isSuccessful) {
                 Log.d("ㅋㅋ", "Status code: ${response.code()}")
                 response.body()?.result?.hobby ?: "내 취미 내놔!!"
