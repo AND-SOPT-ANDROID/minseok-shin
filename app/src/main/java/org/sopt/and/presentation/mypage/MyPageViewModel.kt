@@ -39,7 +39,6 @@ class MyPageViewModel @Inject constructor(
 
     private suspend fun loadUserHobby(): String {
         return try {
-            Log.d("ㅋㅋ", getAccessTokenUseCase())
             val response = getMyHobbyUseCase(getAccessTokenUseCase())
             if (response.isSuccessful) {
                 Log.d("ㅋㅋ", "Status code: ${response.code()}")
