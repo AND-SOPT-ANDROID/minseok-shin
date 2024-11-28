@@ -24,6 +24,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.sopt.and.R
 import org.sopt.and.presentation.mypage.component.MyPageBox
@@ -32,7 +33,7 @@ import org.sopt.and.presentation.mypage.component.MyPagePurchaseBox
 
 @Composable
 fun MyPageScreen(
-    myPageViewModel: MyPageViewModel = viewModel(),
+    myPageViewModel: MyPageViewModel = hiltViewModel(),
     modifier: Modifier = Modifier
 ) {
 

@@ -27,7 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import kotlinx.coroutines.launch
 import org.sopt.and.R
 import org.sopt.and.domain.model.User
@@ -39,9 +39,9 @@ import org.sopt.and.presentation.util.showToast
 
 @Composable
 fun SignUpScreen(
-    signUpViewModel: SignUpViewModel = viewModel(),
-    navigateToSignIn: (user: User) -> Unit = {},
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    signUpViewModel: SignUpViewModel = hiltViewModel(),
+    navigateToSignIn: (user: User) -> Unit = {}
 ) {
     val context = LocalContext.current
     val userEmail = remember { mutableStateOf("") }
@@ -49,9 +49,22 @@ fun SignUpScreen(
     val userHobby = remember { mutableStateOf("") }
     val passwordVisible = remember { mutableStateOf(false) }
     val buttonClickable by signUpViewModel.buttonClickable.collectAsState(false)
-    val signUpResult by signUpViewModel.signUpResult.collectAsState()
+    val signUpResult by signUpViewModel.signUpResult.collectAsState(initial = null)
 
     val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(signUpResult) {
+        signUpResult?.let { result ->
+            if (result.isSuccess) {
+                navigateToSignIn(User(userEmail.value, userPassword.value))
+                context.showToast(context.getString(R.string.sign_up_success))
+            } else {
+                val exception = result.exceptionOrNull()
+                Log.e("SignUpScreen", exception?.message ?: "Unknown error")
+                context.showToast(context.getString(R.string.sign_up_failed))
+            }
+        }
+    }
 
     Column(
         modifier = modifier
@@ -142,23 +155,7 @@ fun SignUpScreen(
         )
     }
 
-    LaunchedEffect(signUpResult) {
-        signUpResult?.let {
-            if (it.isSuccess) {
-                navigateToSignIn(User(userEmail.value, userPassword.value))
-                context.showToast(context.getString(R.string.sign_up_success))
-            } else {
-                val exception = it.exceptionOrNull()
-                if (exception != null) {
-                    Log.e(
-                        "ㅋㅋ",
-                        exception.message.toString()
-                    )
-                    context.showToast(context.getString(R.string.sign_up_failed))
-                }
-            }
-        }
-    }
+
 }
 
 

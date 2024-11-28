@@ -1,9 +1,16 @@
+package org.sopt.and.data.datalocal.datasourceimpl
+
+
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import org.sopt.and.data.datalocal.datasource.UserInfoLocalDataSource
+import dagger.hilt.android.qualifiers.ApplicationContext
+import org.sopt.and.data.datalocal.datasource.UserLocalDataSource
+import javax.inject.Inject
 
-class UserInfoLocalDataSourceImpl(context: Context) : UserInfoLocalDataSource {
+class UserLocalDataSourceImpl @Inject constructor(
+    @ApplicationContext context: Context
+) : UserLocalDataSource {
 
     private val sharedPreferences: SharedPreferences =
         context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)

@@ -27,6 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import kotlinx.coroutines.launch
 import org.sopt.and.R
 import org.sopt.and.presentation.component.BaseTextField
@@ -36,8 +37,8 @@ import org.sopt.and.presentation.util.noRippleClickable
 
 @Composable
 fun SignInScreen(
-    signInViewModel: SignInViewModel,
     modifier: Modifier = Modifier,
+    signInViewModel: SignInViewModel = hiltViewModel(),
     navigateToSignUp: () -> Unit = {},
     navigateToMyPage: (String) -> Unit = {},
 ) {
